@@ -24,7 +24,7 @@ This is a one week course to introduce you to Object-Oriented C# Console Program
 |U|Failed (F)| 0% |
 -------------------------------
 
-Check out the [Scoring Table](assignments/003.5.2-console-classes-rpg.md) to understand, what grade to expect depending on the features that you've implemented:
+Check out the [Scoring Table](assignments/003.5.3-console-classes-rpg.md) to understand, what grade to expect depending on the features that you've implemented:
 
 # Day 1
 ## Goal
@@ -55,5 +55,5 @@ Learn about Inheritance, Abstraction and Polymorphism
 ## Goal
 Use this day to catch up with the mandatory deliverables.
 ## Process
-- [ ] Make sure that you have all [these Features](assignments/003.5.2-console-classes-rpg.md) implemented.
+- [ ] Make sure that you have all [these Features](assignments/003.5.3-console-classes-rpg.md) implemented.
 - [ ] Hand-In your assignment by 18:00 today.
