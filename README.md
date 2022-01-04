@@ -1,10 +1,5 @@
-# Welcome to this course on C# Object-Oriented-Programming.
-
-## Preclaimer
-
-⚠️ ⚠️ Warning: GitHub will not update your personal repositories with the updated course materials.\
-You will always find the full and updated course material over here: [C-Sharp OOP by Marc Zaku](http://github.com/marczaku/csharp-oop/)\
-I recommend to always click on above link once per day! ⚠️ ⚠️
+# CSharp 102
+This course focuses on the parts of C# that allow Object-Oriented-Programming.
 
 ## Introduction
 
