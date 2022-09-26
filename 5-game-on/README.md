@@ -1,4 +1,4 @@
-# Assignments 003.5.3 Console Classes RPG
+# Exercises 5 - Game On
 
 You find detailed instructions on how to implement these features [Here](003.5.1-console-classes-1.md).\
 Just watch out for all Assignments that work on the `RPG`-Project.

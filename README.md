@@ -1,9 +1,8 @@
-# CSharp 102
-This course focuses on the parts of C# that allow Object-Oriented-Programming.
+# 104 - CSharp OOP
 
-## Introduction
+## Goal
 
-This is a one week course to introduce you to Object-Oriented C# Console Programming. This week's course will conclude with a small console rpg game to be built using object-oriented methods.
+This course focuses on the features of C# that allow Object-Oriented-Programming. It will teach about classes, fields, properties and methods and object-oriented-programming principles.
 
 
 # Grading
@@ -21,34 +20,29 @@ This is a one week course to introduce you to Object-Oriented C# Console Program
 
 Check out the [Scoring Table](assignments/003.5.3-console-classes-rpg.md) to understand, what grade to expect depending on the features that you've implemented:
 
-# Day 1
-## Goal
-Complete the Console Basic slides about for-loops and Arrays.
-## Process
-- [ ] Start the Assignment on Google and GitHub Classroom. Check [Assignments with Google and GitHub Classroom](https://gist.github.com/marczaku/3b1853ee30575093b106ecc480d563b2)
-- [ ] Work your way through the [Assignments 003.3.5: C# Console Basics 4](assignments/003.3.5-console-basics-4.md) and the slides mentioned in those assignments.
+# 0 First Steps
+- [ ] Start the [Assignment on Google and GitHub Classroom](https://gist.github.com/marczaku/3b1853ee30575093b106ecc480d563b2).
 
-# Day 2
+# 1 Classes
 ## Goal
-Learn about how to use methods to structure your code in a more organized way and avoid duplicate code.
-## Process
-- [ ] Work your way through the [Assignments 003.4: C# Console Methods](assignments/003.4-console-methods.md) and the slides mentioned in those assignments.
+We'll learn the basics of Object-Oriented Programming and how to define and instantiate a class and how to customize it with Fields and Methods.
 
-# Day 3
-## Goal
-Learn about Classes, Objects and Encapulation
-## Process
-- [ ] Work your way through the [Assignments 003.5.1: C# Console Clases 1](assignments/003.5.1-console-classes-1.md) and the slides mentioned in those assignments.
+[Let's Get Started!](1-classes)
 
-# Day 4
+# 2 Inheritance
 ## Goal
-Learn about Inheritance, Abstraction and Polymorphism
-## Process
-- [ ] Work your way through the [Assignments 003.5.2: C# Console Classes 2](assignments/003.5.2-console-classes-2.md) and the slides mentioned in those assignments.
+Here, we will learn about using Loop-Keywords to structure our Program in repeatable iterations. This way, we can replace the use of the `goto`-Keyword with more standardized functions. Increasing our code's readability.
 
-# Day 5
+[Let's Get Started!](2-inheritance)
+
+# 3 Abstraction
 ## Goal
-Use this day to catch up with the mandatory deliverables.
-## Process
-- [ ] Make sure that you have all [these Features](assignments/003.5.3-console-classes-rpg.md) implemented.
-- [ ] Hand-In your assignment by 18:00 today.
+Loops allow us to repeat the same instructions 100 times or even a million times. But how can we store 100 or even a million variables? The answer is: using Arrays. We'll learn about what Arrays are and how to use them to store and read information from them.
+
+[Let's Get Started!](3-abstraction)
+
+# 4 Game On
+## Goal
+Continue working on the RPG Project and implement all of the required features.
+
+[Let's Get Started!](4-game-on)

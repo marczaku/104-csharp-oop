@@ -1,3 +1,5 @@
+# Slides 2 - Encapsulation
+
 ## 1. Object Oriented Programming
 
 <img src="https://user-images.githubusercontent.com/7360266/136045813-68ca1a5b-287f-44a1-a328-55449dfd62de.png" width="500" height="250">

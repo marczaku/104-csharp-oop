@@ -1,34 +1,11 @@
-# Assignments 003.5.1 Console Classes 1
+# Exercises 1 - Classes
 
-For all of these exercises, it is recommended to:
-- Open GitHub Desktop Application
-- Select your Assignment Repository (named `gp21-21-1004-csharp-oop-rpg-[yourusername]`)
-- Then, from the Menu Bar in GitHub Desktop, select `Repository` > `Open in Terminal` (or `Open in Command Prompt`)
-- Switch to the `projects`-directory using `cd projects`
-- Create a Project using `dotnet new console -o ProjectName` (replace the Project Name with the name given by each Exercise)
-- Add a `.gitignore` to the folder of the newly created Project:
-  - First, navigate to the new folder: `cd [ProjectName]`
-  - Then, use `dotnet new gitignore`
-  - Do NOT commit any files in `/bin/` or `/obj/`, please!
-- Open the Project in the IDE of your choice. Remember: Open the `.csproj` file!!
-- Then follow the instructions of the exercise
+## Goal
+We'll learn the basics of Object-Oriented Programming and how to define and instantiate a class and how to customize it with Fields and Methods.
 
 ## 1 - Object-Oriented Programming:
-[Read the Slides on Object-Oriented Programming](../slides/003.5-classes.md#1-object-oriented-programming)
-### Instructions
-- Create a Console Project named `P1ObjectOrientedProgramming`
-- You will use this project throughout these exercises
-- Small exercise for warm-up:
-  - Create an array of three strings, named `names`
-  - Ask the user for three names. 
-    - Use a for-loop, to do so.
-    - Put each name into one slot of the Array.
-  - Now, print all three names to the console.
-    - But put them all in one line.
-    - Separated by comma.
-    - Check out the Sample Outout:
 
-### Sample
+### Goal
 ```
 Output:Give me a name.
 Input:Mike
@@ -39,8 +16,27 @@ Input:Max
 Output:Mike,Eva,Max
 ```
 
+### Instructions
+- Create a Console Project named `P1ObjectOrientedProgramming`
+- Small exercise for warm-up:
+  - Create an array of three `strings`, named `names`
+  - Ask the user for three names. 
+    - Use a `for`-loop, to do so.
+    - Put each name into one slot of the Array.
+  - Now, print all three names to the console.
+    - In one line.
+    - Separated by comma.
+
+Need Help? [Here's The Slides!](slides/README.md#1-object-oriented-programming)
+
 ## 4 - Classes
-[Read the Slides on Classes & Objects](../slides/003.5-classes.md#4-classes--objects)
+
+### Goal
+```
+Output:Person
+Output:Animal
+Output:Car
+```
 ### Instructions
 - Create a Console Project named `P2Classes`
 - Create 3 Classes:
@@ -48,31 +44,15 @@ Output:Mike,Eva,Max
   - `Animal`
   - `Car`
 - For each of these classes:
-  - Create one instance (object) of the class assign each to a variable
+  - Create one instance (object) of the class and assign each to a variable
   - Use `Console.WriteLine` and pass that instance (object) into the method
 
-### Sample
-```
-Output:Person
-Output:Animal
-Output:Car
-```
+
+Need Help? [Here's The Slides!](slides/README.md#4-classes--objects)
 
 ## 5 - Class Members:
-[Read the Slides on Class Members](../slides/003.5-classes.md#5-class-members)
-### Instructions
-- Continue Working on `P2Classes`
-- Extend the class `Person`:
-  - Give it a field of type `string` with the name `name`
-  - Give it a method named `IntroduceYourself()`
-    - The method should print "Hello, my name is " and the `name` of the Person to the console
-- Create an Array of three `Person`, name it `persons`
-- Ask the user for three names. 
-  - Use a for-loop, to do so.
-  - Put each name into one slot of the Person-Array's `name`
-- Now, call `IntroduceYourself()` on each person of the Array
 
-### Sample
+### Goal
 ```
 [...](Output from Previous Exercises)
 Output:Give me a name.
@@ -85,6 +65,20 @@ Output:Hello, my name is Mike
 Output:Hello, my name is Eva
 Output:Hello, my name is Max
 ```
+
+### Instructions
+- Continue Working on `P2Classes`
+- Extend the class `Person`:
+  - Give it a field of type `string` with the name `name`
+  - Give it a method named `IntroduceYourself()`
+    - The method should print `"Hello, my name is "` and the `name` of the Person to the console
+- Create an Array of three `Person`, name it `persons`
+- Ask the user for three names. 
+  - Use a for-loop, to do so.
+  - Put each name into one slot of the Person-Array's `name`
+- Now, call `IntroduceYourself()` on each person of the Array
+
+Need Help? [Here's The Slides!](slides/README.md#5-class-members)
 
 ## 6 - Static Class Members:
 [Read the Slides on Static Class Members](../slides/003.5-classes.md#6-static-class-members)
@@ -100,7 +94,7 @@ Output:Hello, my name is Max
     - It returns the result of the formula `from + (to - from)*t`
 - This is a very useful method to make things interpolate between two values
 - Either over time, or in a certain amount
-- You will use it A LOT during game development!
+- You will use it a lot during game development!
 - Check out the Samples to see it in action!
 
 ### Sample

@@ -1,4 +1,4 @@
-# Assignments 003.5.2 Console Classes 2
+# Exercises 3 - Inheritance
 
 For all of these exercises, it is recommended to:
 - Open GitHub Desktop Application

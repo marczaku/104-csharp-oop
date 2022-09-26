@@ -1,3 +1,5 @@
+# Slides 3 - Inheritance
+
 ## 1. Properties
 
 
