@@ -8,7 +8,7 @@ We'll learn the basics of Object-Oriented Programming and how to define and inst
 <img src="https://user-images.githubusercontent.com/7360266/136045813-68ca1a5b-287f-44a1-a328-55449dfd62de.png" width="500" height="250">
 ---
 
-## 2. Structured Programming
+### 1.1. Structured Programming
 - Programs are divided into functions and data
 - Functions
   - Require Data as Input
@@ -18,61 +18,64 @@ We'll learn the basics of Object-Oriented Programming and how to define and inst
 - Separation of Data and Functions
 
 ```cs
-struct Potion {
-  public int costs;
-  public int healAmount;
-  public int ownedAmount;
-}
-
-struct Player {
-  public int health;
-  public int gold;
-}
-
 Player player;
 player.health = 10;
 player.gold = 17;
 
-void BuyPotion(Potion potion) {
-  if(player.gold < potion.costs) return;
+void BuyPotion(ref Potion potion)
+{
+    if (player.gold < potion.costs) return;
 
-  player.gold -= potion.costs;
-  player.potions++;
+    player.gold -= potion.costs;
+    potion.ownedAmount++;
 }
 
-void SellPotion(Potion potion) {
-  if(potion.ownedAmount < 1) return;
+void SellPotion(ref Potion potion)
+{
+    if (potion.ownedAmount < 1) return;
 
-  potion.ownedAmount--;
-  player.gold += potion.costs/2;
+    potion.ownedAmount--;
+    player.gold += potion.costs / 2;
 }
 
-void UsePotion(){
-  if(potion.ownedAmount < 1) return;
+void UsePotion(ref Potion potion)
+{
+    if (potion.ownedAmount < 1) return;
 
-  potion.ownedAmount--;
-  player.health += potion.healAmount;
+    potion.ownedAmount--;
+    player.health += potion.healAmount;
 }
 
-static void Main(string[] args) {
-  Potion smallPotion;
-  smallPotion.costs = 10;
-  smallPotion.healAmount = 20;
-  smallPotion.ownedAmount = 0;
+Potion smallPotion;
+smallPotion.costs = 10;
+smallPotion.healAmount = 20;
+smallPotion.ownedAmount = 0;
 
-  BuyPotion(smallPotion);
-  BuyPotion(smallPotion);
-  SellPotion(smallPotion);
-  BuyPotion(smallPotion);
-  UsePotion(smallPotion);
+BuyPotion(ref smallPotion);
+BuyPotion(ref smallPotion);
+SellPotion(ref smallPotion);
+BuyPotion(ref smallPotion);
+UsePotion(ref smallPotion);
 
-  Potion freePotion;
-  smallPotion.costs = 0;
-  smallPotion.healAmount = 1;
-  smallPotion.ownedAmount = 0;
+Potion freePotion;
+freePotion.costs = 0;
+freePotion.healAmount = 1;
+freePotion.ownedAmount = 0;
 
-  BuyPotion(smallPotion);
-  UsePotion(smallPotion);
+BuyPotion(ref smallPotion);
+UsePotion(ref smallPotion);
+
+struct Potion
+{
+    public int costs;
+    public int healAmount;
+    public int ownedAmount;
+}
+
+struct Player
+{
+    public int health;
+    public int gold;
 }
 ```
 
@@ -80,74 +83,75 @@ static void Main(string[] args) {
 
 ---
 
-## 3. Object-Oriented
+### 1.2. Object-Oriented
 
 - Programs are divided into objects
 - Objects contain functions and data
 
 ```cs
+
+Player player = new Player();
+player.gold = 15;
+player.health = 10;
+
+Potion smallPotion = new Potion();
+smallPotion.costs = 10;
+smallPotion.healAmount = 20;
+smallPotion.ownedAmount = 0;
+
+
+
+player.Buy(smallPotion);
+player.Buy(smallPotion);
+player.Sell(smallPotion);
+player.Buy(smallPotion);
+player.Use(smallPotion);
+
+Potion freePotion = new Potion();
+freePotion.costs = 0;
+freePotion.healAmount = 1;
+freePotion.ownedAmount = 0;
+
+player.Buy(freePotion);
+player.Use(freePotion);
+
+
 class Potion{
-  public int costs;
-  public int healAmount;
-  public int ownedAmount;
+    public int costs;
+    public int healAmount;
+    public int ownedAmount;
 }
 
 class Player {
 
-  int health;
-  int gold;
+    public int health;
+    public int gold;
 
-  public void Buy(Potion potion){
-    if(gold < potion.costs) return;
-    gold -= potion.costs;
-    potion.ownedAmount++;
-  }
+    public void Buy(Potion potion){
+        if(gold < potion.costs) return;
+        gold -= potion.costs;
+        potion.ownedAmount++;
+    }
 
-  public void Sell(Potion potion){
-    if(potion.ownedAmount < 1) return;
-    potion.ownedAmount--;
-    gold += potion.costs/2;
-  }
+    public void Sell(Potion potion){
+        if(potion.ownedAmount < 1) return;
+        potion.ownedAmount--;
+        gold += potion.costs/2;
+    }
 
-  public void Use(Potion potion){
-    if(potion.ownedAmount < 1) return;
-    potion.ownedAmount--;
-    health += potion.healAmount;
-  }
+    public void Use(Potion potion){
+        if(potion.ownedAmount < 1) return;
+        potion.ownedAmount--;
+        health += potion.healAmount;
+    }
 }
 
-static void Main(string[] args) {
-  Player player = new Player();
-  player.gold = 15;
-  player.health = 10;
-
-  Potion smallPotion = new Potion();
-  smallPotion.costs = 10;
-  smallPotion.healAmount = 20;
-  smallPotion.ownedAmount = 0;
-
-
-
-  player.Buy(smallPotion);
-  player.Buy(smallPotion);
-  player.Sell(smallPotion);
-  player.Buy(smallPotion);
-  player.Use(smallPotion);
-
-  Potion freePotion;
-  smallPotion.costs = 0;
-  smallPotion.healAmount = 1;
-  smallPotion.ownedAmount = 0;
-
-  player.Buy(smallPotion);
-  player.Use(smallPotion);
-}
 ```
 
 
 ---
 
-## 4. Classes & Objects
+## 2. Classes & Objects
 
 Note: You will see us use the Keyword `public` all over the place in the next few slides.
 
@@ -180,8 +184,16 @@ Animal animal;
 Or as a function Parameter:
 
 ```cs
-void Pet(Animal animal){
-  Console.WriteLine($"The player pets {animal}.");
+void Pet(Animal target){
+  Console.WriteLine($"The player pets {target}.");
+}
+```
+
+Or a function Return Type:
+
+```cs
+Animal Adopt(){
+  return new Animal();
 }
 ```
 
@@ -250,9 +262,45 @@ animal = null; // (End of Object #1)
 } // (End of Object #1)
 ```
 
+#### new, Heap and the Garbage Collector
+
+We will learn about the details of these technical terms later, but here's an overview of what happens in the background:
+
+```cs
+Animal animal = null;
+```
+
+An `Animal` variable is defined and the value #0000 is assigned to it. This tells the Runtime Environment, that there is no Animal.
+
+```cs
+animal = new Animal();
+```
+
+Here, an instance of the Type `Animal` gets created in some magic wonderland named the Heap. And not the actual `Animal` gets assigned to the variable, but its reference. You can think of that as its ID or Personnummer. Let's say #AF61.
+
+```cs
+animal = null;
+```
+
+Now, when you assign null (#0000) to the variable again, there is no variable that holds the original reference (ID #AF61) anymore. But the actual `Animal` instance still exists in the Heap!
+
+```cs
+// A few moments later...
+```
+
+At some point later, it's not deterministic when exactly (depends on your system's memory and your GC settings), the Garbage Collector will look at all object instances in the Heap and find out, whether any variable still references this object. Should it find out, that the `Animal` instance with ID #AF61 is no longer referenced...
+
+```cs
+~Animal()
+```
+
+It invokes the so-called Finalizer (more on that later) and destroys the object instance, which in reality just means that it marks the address range in the RAM as Available and no longer in use.
+
+P.S: Deleting in Computer Science usually only means "let's forget that there's important information there, it'll get overridden at some later point. Which is, why Safe-Deleting software exists, which continuously writes some randomly scrambled data over the Memory in question, as good Hackers (and even Script-Kiddos) could else recover deleted files easily.
+
 ---
 
-## 5. Class Members
+## 3. Class Members
 
 Members define the Properties and Methods of a class.
 - Properties define, what a class IS
@@ -414,7 +462,7 @@ The player pets Rex.
 
 ---
 
-## 6. Static Class Members
+## 4. Static Class Members
 
 - Static class members are part of the class-type
 - And not part of the instances
@@ -537,7 +585,7 @@ Then make the method static. Usually, static functions are really used for Calcu
 
 ---
 
-## 7. Constructor
+## 5. Constructor
 
 Constructors describe, how a new class instance (object) can be created (constructed).\
 They are needed in order to be able to instantiate a class using the `new` keyword.\
@@ -641,7 +689,7 @@ Dog woofs = new Dog();
 
 ---
 
-## 8. Finalizer
+## 6. Finalizer
 
 A Finalizer allows us to take control over what happens as soon as a class instance (object) is destroyed.\
 Sometimes, we want to be notified, when something disappeared.\
@@ -713,148 +761,3 @@ To summarize the Finalizer:
 - Better: IDisposable-Pattern
 
 ---
-
-## 9. Access Modifiers
-```cs
-public class Animal {
-// Private is only accessible by this class
-// Everything is private per default
-  Color color;
-// public is accessible by everyone
-  public string name;
-  // protected is only accessible by this class and inheritors
-  protected int age;
-  
-  public Animal(int id) {
-    this.id = id;
-  }
-
-  public void SetAge(int value) {
-    this.age = value;
-  }
-}
-static void Main(string[]args) {
-var animal = new Animal(5);
-  // ERROR: Cannot access private field
-  animal.id = 3;
-  // Valid: name is a public field
-  animal.name = "Adam";
-  // ERROR: cannot access protected field
-  animal.age = 5;
-  // Valid: SetAge is a public method
-  animal.SetAge(5);
-}
-```
-
-Access modifiers are used to limit access to class-Members.\
-Sometimes, you don't want other classes to fiddle around with your internal values.\
-- e.g. you don't want a class to just set the player's weapon to `null`
-- or you don't want other classes to read your application's Security Token
-
-Also, you want to make sure, that other classes only see, what they need to see about your class.
-- it makes your classes appear more simple, than they actually are
-- which makes it easier to use it
-- think about Bluetooth Headphones
-  - do you understand, how they work internally?
-  - or are you happy, that you only need a Power and a Connect Button to use them?
-
-You can use access modifiers on classes, fields, method, properties.\
-Just put the access modified before it.
-- `private` (default): available to owning class only
-- `protected`: available to owning class and inheriting classes (more on that later)
-- `public`: available to all classes
-- `internal`: same as `public`, but only within the same Project
-  - We will see later, that we can actually have Solutions consisting of multiple Projects!
-
-Let's see, how they each work:
-
-This code sample is invalid, because the default access modifier is `private`\
-And we cannot access implicitly `private` Members from outside the class:
-
-```cs
-public class Person {
-   string name;
-}
-
-static void Main() {
-   Person max = new Person();
-   max.name = "Max";
-}
-```
-
-This code sample is invalid.\
-We cannot access explicitly `private` Members from outside the class:
-
-```cs
-public class Person {
-   private string name;
-}
-
-static void Main() {
-   Person max = new Person();
-   max.name = "Max";
-}
-```
-
-This code sample is valid.\
-We can access `public` Members from outside the class:
-
-```cs
-public class Person {
-   public string name;
-}
-
-static void Main() {
-   Person max = new Person();
-   max.name = "Max";
-}
-```
-
-Let's have a real-world code-sample for Access Modifiers:
-
-```cs
-public class Circle {
-  // radius is private to avoid other classes of assigning invalid values
-  double radius;
-  
-  // area is private to avoid other classes of assigning other values (which are not really the area)
-  double area;
-  
-  // SetRadius is a public method that you can use to set the radius
-  // It validates the radius and updates the area as well
-  public void SetRadius(double radius) {
-    if (radius <= 0)
-      return;
-    this.radius = radius;
-    this.area = Math.PI * radius * radius;
-  }
-  
-  // GetRadius is a public method to read the radius
-  public double GetRadius() {
-    return this.radius;
-  }
-  
-  // GetArea is a public method to read the area
-  public double GetArea() {
-    return this.area;
-  }
-}
-```
-
-Which one to use?
-- Make as much use of `private` as possible
-  - It offers less confusion to users of your class, if they can only change values that make sense
-  - It makes your code more easy to change, because other classes can not rely on `private` fields / methods
-  - It prevents other classes to „break“ your classes through invalid changes
-  
-- Use `protected` if you use inheritance
-  - And only, if you expect inheriting classes to need access to a certain field / method
-  
-- Use `public` for everything you want to make available
-  - It should be your conscious intention to make sth. public
-
-- In the beginning:
-  - The easiest is, to just make everything `public`, you have to put less thought into it, then.
-
----
-

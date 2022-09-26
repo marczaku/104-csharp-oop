@@ -1,6 +1,6 @@
 # Exercises 2 - Encapsulation
 
-## 9 - Access Modifiers:
+## 7 - Access Modifiers:
 [Read the Slides on Access Modifiers](../slides/003.5-classes.md#9-access-modifiers)
 ### Goal
 - Add Health and MaxHealth to our Unit.
@@ -46,7 +46,7 @@ Input:2000
 Output:Unit #3: Leet - 1337/1337 Health
 ```
 
-## 11 - Properties:
+## 8 - Properties:
 [Read the Slides on Properties](../slides/003.5-classes.md#11-properties)
 ### Goal
 - Improve our Code's Readability a bit.
@@ -74,7 +74,7 @@ Input:-100
 Output:Unit #3: Leet - 0/1337 Health
 ```
 
-## 11.1 - Properties:
+## 8.1 - Properties:
 ### Goal
 - Right now, you can change our Unit's `name` at any time.
 - Try it: Try adding: `Unit test = new Unit("Abc", 100); test.name = "Def";`
@@ -102,7 +102,7 @@ Console.WriteLine(test.Name);
 Output:Abc
 ```
 
-## 11.2 - Properties:
+## 8.2 - Properties:
 ### Goal
 - Clean Up our Code a bit more, to improve Readability.
 - When we are checking in the Game Loop, whether the Unit's health is still > 0
@@ -131,7 +131,7 @@ Unit test = new Unit("Abc", 100);
 test.Health = 500;
 ```
 
-## 11.3 - Properties:
+## 8.3 - Properties:
 ### Goal
 - Prepare our Game for Enemy Attacks by changing the Game 
   - From setting the Health directly from 100 to 80

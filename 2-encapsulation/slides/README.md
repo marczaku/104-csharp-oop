@@ -1,535 +1,5 @@
 # Slides 2 - Encapsulation
 
-## 1. Object Oriented Programming
-
-<img src="https://user-images.githubusercontent.com/7360266/136045813-68ca1a5b-287f-44a1-a328-55449dfd62de.png" width="500" height="250">
----
-
-## 2. Structured Programming
-- Programs are divided into functions and data
-- Functions
-  - Require Data as Input
-  - Return Data as Output
-- Data
-  - Only stores information
-- Separation of Data and Functions
-```cs
-class House {
-  bool isOpen;
-  Color color;
-}
-
-static void OpenHouseDoor(House house) {
-  house.isOpen = true;
-}
-
-static void CloseHouseDoor(House house) {
-  house.isOpen = false;
-}
-
-static void SetHouseColor(House house, Color color) {
-  house.color = color;
-}
-
-static Color GetHouseColor(House house) {
-  return house.color;
-}
-
-static void Main(string[] args) {
-  House house = new Houe();
-  OpenHouseDoor(house);
-  CloseHouseDoor(house);
-  SetHouseColor(house, Color.Red);
-  Color color = GetHouseColor(1);
-}
-```
-
-
-
----
-
-## 3. Object-Oriented
-
-- Programs are divided into objects
-- Objects contain functions and data
-
-```cs
-class House {
-  bool isDoor Open;
-  
-  public void OpenDoor() {
-    this.isDoorOpen = true;
-  }
-
-  public void CloseDoor() {
-     this.isDoorOpen = true;
-  }
-  
-  public Color color { get; set;}
-}
-
-static void Main(string[] args) {
-  House house = new House();
-  house.OpenDoor();
-  house.CloseDoor();
-  house.Color = Color.Red;
-  Color color = house.Color;
-}
-```
-
-
----
-
-## 4. Classes & Objects
-
-- You can define a class using this syntax:
-```cs
-public class classs-name {
-  class-body
-}
-```
-
-- Classes are types. Basically Templates for Objects
-- The class below contains one `public` `instance` Method
-  - It is called `MakeSound`
-  - And will become a part of `Animal` instances
-- More on that later
-
-```cs
-// This defines a new class
-public class Animal {
-  public void MakeSound() {
-    Console.WriteLine("...");
-  }
-}
-```
-
-- Objects are instances of those classes
-- Create instances using `new` keyword
-- And storing the return value in a variable
-- Or pass it on to another method
-
-```cs
-static void Main(string[] args) {
-  // This creates an instance of the class Animal
-  Animal myPet = new Animal();
-```
-
-- You can use object instances to call its members.\
-- In this case, the `Animal` Class has one `instance` Member:
-  - The Method `void MakeSound()`
-
-```cs
-  // This calls the instances method. 
-  myPet.MakeSound(); // Output:"..."
-```
-
-You can create multiple instances of the same class:
-
-```cs
-  // This creates another instance of the same class
-  // It has it's own method, with the same result: Output: "..."
-  Animal yourPet = new Animal();
-  yourPet.MakeSound();
-```
-
-- To destroy instances, just forget about them
-- The feature that takes care of destroying "forgotten" objects, is called `Garbage Collector`, or hort `GC`
-- `null` is the keyword for „No Instance“
-
-```cs
-  // To destroy an instance, we just need to forget about it
-  // The garbage collector will do the rest:
-  yourPet = null;
-}
-```
-
----
-
-## 5. Class Members
-
-Class Members are parts of the class.\
-There can be, as we have seen earlier, methods as class Members.\
-Syntax: `public ReturnTyp MethodName() {}`\
-Member methods are methods that belong to class instances:
-
-```cs
-public class Animal {
-  // This is a member method of class Animal
-  public void MakeSound() {
-    Console.WriteLine("...");
-  }
-}
-```
-
-We can then invoke that Method on instances of the class:
-
-```cs
-static void Main(string[] args) {
-  Animal dog = new Animal();
-  // we can invoke member methods on the instance:
-  dog.MakeSound(); // Output: ...
-}
-```
-
-Also, there can be fields as class Member.\
-Syntax: `public FieldType fieldName;`\
-Field are basically variables that belong to a class instance:
-
-```cs
-public class Animal {
-  // This is a member field of class Animal
-  public string name;
-}
-```
-
-We can use the field on instances of that class:
-
-```cs
-static void Main(string[] args) {
-  Animal dog = new Animal();
-  // we can assign values to member fields on the instance:
-  dog.name = "Bello";
-  // and we can read values from the instance:
-  Console.WriteLine(dog.name); // Output: Bello
-}
-```
-
-We can also combine member methods and fields.\
-This allows us to acces an instance's field from an instance's method:
-
-```cs
-public class Animal {
-  public string name;
-  public void MakeSound() {
-    // here, we can access this animal's name-field:
-    Console.WriteLine(name + ":...");
-  }
-}
-
-static void Main(string[] args) {
-
-  // Create a new Animal instance
-  Animal adam = new Animal();
-  // Assign the name "Adam" to this Animal instance
-  adam.name = "Adam";
-  
-  // Create another Animal instance
-  Animal eva = new Animal();
-  // Assign the name "Eve" to this second Animal instance
-  eva.name = "Eva";
-  
-  // This calls the MakeSound-method on the instance
-  // On which we set the name to Adam
-  adam.MakeSound(); // Output: "Adam:..."
-  
-  // And this one calls it on the animal with the name Eva
-  eva.MakeSound(); // Output: "Eva:..."
-}
-```
-
----
-
-## 6. Static Class Members
-
-- Static class members are part of the class-type
-- And not part of the instances
-- To access them, you use the class‘s type name instead of an instance
-  - Static Field: `public static FieldType fieldName;`
-  - Static Method: `public static ReturnType MethodName() {}`
-
-```cs
-public class Animal {
-  public string name;
-  // This is a static field
-  public static int count;
-  
-  public void MakeSound() {
-    Console.WriteLine(name + ":...");
-  }
-  
-  // This is a static method
-  static static void PrintCount() {
-    Console.WriteLine("Animal-Count: " + count);
-  }
-}
-
-static void Main(string[] args) {
-  Animal adam = new Animal();
-  adam.name = "Adam";
-  // Static fields are accessed using the type name
-  Animal.Count++;
-  
-  Animal eva = new Animal();
-  eva.name = "Eva";
-  Animal.Count++;
-  
-  // Static methods are accessed using the type name
-  
-  Animal.PrintCount(); // Output: "Animal-Count: 2"
-  
-  // Non-static mathods require an instance to be called
-  eva.MakeSound(); // Output: "Eva:..."
-}
-```
-
-
-- You can even mark a complete class as `static`
-  - Only, if all Members are marked `static`, too!
-  - This will force you to make all members `static`, too!
-
-
-```cs
-// This is a static class:
-public static class Math{
-  public static int Add(int a, int b) {
-    return a + b;
-  }
-}
-```
-
-```cs
-// ERROR: A static class cannot have instance members:
-public static class Math{
-  public int Add(int a, int b) {
-    return a + b;
-  }
-}
-```
-
-It will disable using the `new` keyword to create instances of this class
-
-```cs
-public static void Main() {
-  // ERROR: This is not possible:
-  Math math = new Math();
-}
-```
-
-Once more, to compare, for a class named `Tree`:
-
--| static | instance
- :--: | :--: | :--:
-keyword | `static` | none (default)
-define a field | `public static int count;` | `public int height;`
-write to a field | `Tree.count = 5;` | `Tree tree = new Tree(); tree.height = 5;`
-read a field | `int i = Tree.count;` | `Tree tree = new Tree(); int i = tree.height;`
-define a method | `public static string PrintDefinition(){}` | `public void DoPhotosynthesis(){}`
-use a method | `Tree.PrintDefinition();` | `Tree tree = new Tree(); tree.DoPhotosynthesis();`
-
-Now, you probably wonder:\
-When to use `static` and when not to?
-
-The question you need to ask for Fields:
-Is the Field, that you want to add, something you want every instance to own by itself? e.g.:
-- a house's color (one Houe might be red, another one blue)
-- a person's name (one person is called Max, another one Anna)
-- a unit's health (one unit might have full health, the other one might be almost dead)
-Then make it an intance field.
-
-Is the Field something that is shared across all instances of a class? e.g.:
-- a counter for how many enemies have been spawned
-- a global buff that is applied to all units (like 10% extra damage for everyone)
-Then make it a static field.
-
-Do you want to easily access this information globally, because you need it only in one place, e.g.:
-- a timer, how long the game still lasts
-- the current score of the player
-- the information, whether the game is paused
-Then you can also make it a static field (at least for now, I will later strongly discourage you of using static fields)
-
-The question you can ask for Methods:
-Does the Method require any information from a class's instance? e.g.:
-- The `TakeDamage`-Method needs to access a spawned unit's `health`
-- The `Attack`-Method needs sto know, who is attacking, and how much damage the attacker can deal
-- The `SetPosition`-Method needs to set a certain GameObject's position
-Then you want to use an instance Method
-
-Is the Method a very Generic Method, that works independent of an instance of a class? e.g.:
-- Any `Math`-function; Mathematical functions don't need to know, who wants to add two numbers, the result will be the same
-- A Method that can calculate a path between to locations in an RTS
-Then make the method static. Usually, static functions are really used for Calculations and Formulas only
-
-
----
-
-## 7. Constructor
-
-Constructors describe, how a new class instance (object) can be created (constructed).\
-They are needed in order to be able to instantiate a class using the `new` keyword.\
-They offer us more control over:
-- what information is needed to create a class instance
-  - e.g. you are not allowed to create a Hero without providing a `name`
-- what initial values a class should have
-  - e.g. a player's initial health should be `100` and not `0`
-
-```cs
-public class Cat 
-{
-
-}
-```
-Constructors are called when a class is constructed through the `new` key-word\
-There‘s an invisible Parameterless Default-Constructor for every class doing nothing\
-Which means, that above class in reality looks like this:
-```cs
-public class Cat 
-{
-  // the invisible, parameter-less constructor looks like this:
-  public Cat() 
-  { 
-  }
-}
-```
-This constructor is called, as soon as you create a new instnce of the class with the `new` keyword\
-Note, how we call the Constructor using `()` (a list of zero parameters), just like a parameter-less method:
-```cs
-Cat meows = new Cat();
-```
-
-We can actually change the class to proof, that this is happening:
-```cs
-public class Cat 
-{
-  // the invisible, parameter-less constructor looks like this:
-  public Cat() 
-  { 
-     Console.WriteLine("And thus, a new Cat was born!");
-  }
-}
-
-public class Program {
-   static void Main() {
-      Cat meows = new Cat();
-   }
-}
-```
-
-Output: `And thus, a new Cat was born!`
-
-The syntax of a Constructor is:
-```cs
-public ClassName(parameter-list) {
-   constructor-body
-}
-```
-
-You can create your own constructor without parameters, to do some initialization:
-
-```cs
-public class Elephant {
-  bool hasTrunk;
-
-  // as soon as an elephant is created...
-  publlic Elephant() {
-    // set `hasTrunk` to true
-    this.hasTrunk = true;
-  }
-}
-```
-
-You can also create a constructor with parameters, just like you can create a method with parameters:
-
-
-```cs
-public class Dog {
-  string name;
-  
-  // require a parameter in order to construct a new Dog:
-  public Dog(string name) {
-    // assign the passed parameters to our own field
-    // `this` helps us to access our own field `name` instead of the parameter with the same name:
-    this.name = name;
-  }
-}
-```
-
-Now, we can create Dogs using the constructor with the correct parameter:
-```cs
-Dog woofs = new Dog("Woofs");
-```
-
-But the invisible default constructor has disappeared now, so we cannot use it anymore:
-```cs
-// Error: No parameter-less constructor exists!
-Dog woofs = new Dog();
-```
-
----
-
-## 8. Finalizer
-
-A Finalizer allows us to take control over what happens as soon as a class instance (object) is destroyed.\
-Sometimes, we want to be notified, when something disappeared.\
-Or we need to do some clean-up (e.g. remove some temporary files)
-
-
-
-The syntax of a Finalizer is:
-```cs
-~ClassName() {
-   finalizer-body
-}
-```
-
-Let's have a look at the following class with a finalizer:
-
-```cs
-public class Animal {
-  // Constructor
-  public Animal() {
-    Console.WriteLine("Animal created.");
-  }
-  
-  // Finalizer
-  ~Animal() {
-    Console.WriteLine("Animal destroyed.");
-  }
-}
-```
-
-Now, let's create and Finalize a few animals:
-```cs
-static void Main(string[] args) {
-  for ( var i = 0; i < 2; i++) {
-    // This will call the Constructor
-    var animal = new Animal(); // Output: Animal created.
-    
-    // At this point, the loop will start again
-    // The old animal variable will then be out of scope
-    // And therefore cleaned up by the garbage collector at some point
-    // This will call the finalizer (whenever the GC decides to "wake up"
-    // To speed this process up, since the garbage collector is slow and lazy:
-    // We can call it manually:
-    GC.Collect();
-  }
-}
-```
-
-Output:
-```
-Animal created.
-Animal created.
-Animal destroyed.
-```
-
-The output might confuse you. But it can be explained:
-- First, an Animal is created.
-- Then, we call the Garbage-Collector, but the animal still exists in the current scope.
-- Then, the loop ends, the current scope ends, and the animal variable gets reset.
-- Then, we create another Animal.
-- Then, we call the Garbage-Collector again. This time, there is an old Animal ready to be cleaned up.
-  - That's, why we now see, that one animal was destroyed.
-
-To summarize the Finalizer:
-- Opposite of a Constructor
-- Defined through `~ClassName()` `{}` Method Signature
-- Unreliable (You never know, when it‘s called)
-- Dependant on when the Garbage Collector Collects the Object
-- Better: IDisposable-Pattern
-
----
-
 ## 9. Access Modifiers
 ```cs
 public class Animal {
@@ -671,6 +141,228 @@ Which one to use?
 
 - In the beginning:
   - The easiest is, to just make everything `public`, you have to put less thought into it, then.
+
+---
+
+
+## 10. Properties
+
+
+Properties are used in `C#` to Replace Getter and Setter Method.\
+They are basically just syntactic sugar!\
+You could say, that they are Methods, which look like Fields.
+- With Methods, you can use Code for Validation, Processing, etc.
+- You can define a getter and a setter separately
+
+So, to compare:\
+This is a field:
+```cs
+public class Unit {
+   public int health;
+}
+
+Unit unit = new Unit();
+unit.health = 5;
+// I can assign any value to it and it will have that value.
+unit.health = -100;
+Console.WriteLine(unit.health); // Output: -100
+```
+
+This is Getter and Setter Methods:
+```cs
+public class Unit {
+   private int health;
+   public void SetHealth(int value) {
+      health = Math.Max(0, value);
+   }
+   public int GetHealth() {
+      return health;
+   }
+}
+
+Unit unit = new Unit();
+unit.SetHealth(5);
+// Now, when I assign invalid values, they can be fixed:
+unit.SetHealth(-100);
+Console.WriteLine(unit.GetHealth()); // Output: 0
+// I cannot assign `health` directly:
+// unit.health = -100;
+```
+
+And now, using Properties:
+```cs
+public class Unit {
+   private int health;
+   public int Health {
+      set {
+         health = Math.Max(0, value);
+      }
+      get {
+         return health;
+      }
+   }
+}
+
+Unit unit = new Unit();
+unit.Health = 5;
+// Now, when I assign invalid values, they can be fixed:
+unit.Health = -100;
+Console.WriteLine(unit.Health); // Output: 0
+// I cannot assign `health` directly:
+// unit.health = -100;
+```
+
+Do you see, how one part behaves like Methods:
+```cs
+set {
+   health = Math.Max(0, value);
+}
+```
+
+While the other behaves like Fields:
+```cs
+unit.Health = -100;
+Console.WriteLine(unit.Health);
+```
+
+
+Syntax:
+```cs
+public PropertyType PropertyName {
+     get { 
+        // a function that returns PropertyType 
+     }
+     set { 
+        // a function that receives a local variable named `value` of type PropertyType 
+     }
+}
+```
+                
+```cs
+public class Circle {
+  // a private field, so it's inaccessible
+  int radius;
+  
+  // a traditional Setter-Method
+  public void SetRadius(int value) {
+    this.radius = value;
+  }
+  // a traditional Getter-method
+  public int GetRadius() {
+    return this.radius;
+  }
+  
+  // a property with the same functionality
+  public int Radius {
+    get {
+      // The getter method has to return to an int
+      return this.radius;
+    }
+    set {
+      // The setter method gets a local int "value"
+      this.radius = value;
+    }
+  }
+}
+```
+
+- Since Properties act as two separe methods…
+- You may have only a Getter, or only a Setter
+- Or your getter may be public
+- And your setter private at the same time
+- There‘s also a nice expression-body syntax:
+  -  get => `referenceToValue;`
+  -  set => `referenceToValue = value;`
+
+```cs
+public class Circle {
+   int radius;
+   
+   // properties may have only a getter
+   public int Radius {
+      get {
+         return this.radius;
+      }
+   }
+   
+   // or only a setter
+   public int Radius1 {
+      set {
+         this.radius = value;
+     }
+   }
+   
+   // or different access modifiers:
+   public int Radius2 {
+     get {
+       return.this.radius;
+     }
+     private set {
+       this.radius = value;
+     }
+   }
+
+   // and you can use expression-bodies:
+   public int Radius3 {
+     get => this.radius;
+     set => this.radius = value;
+  }
+}
+```
+
+
+- Want to save even more space?
+- Use Auto-Properties:
+  - They have a hidden field for the value
+  - It‘s popular to name a backing field, that‘s supposed to only be changed through a Property with Underscore: _variableName 
+  - It signalizes, that it should not be accessed directly; But it does not prevent it (within the class)
+
+```cs
+public class Circle {
+  // This is an auto-property
+  // it stores the value in a hidden field that you cannot access in any other way
+  
+  public int Radius {
+    get;
+    private set;
+  }
+}
+// the above class is the same as:
+public class AnotherCircle {
+  int _radius;
+  public int Radius {
+    get {
+      return this._radius;
+    }
+    private set {
+      this._radius = value;
+    }
+  }
+}
+```
+
+- Also Useful: Read-Only Properties.
+- They only have a `get`
+- But they can be assigned within the Constructor
+
+```cs
+public class Person {
+  // Read-Only Property
+  public string Name {
+    get;
+  }
+  
+  public Person(string name) {
+    // we can still assign to the name within the constructor:
+    this.Name = name;
+  }
+  
+  public void ChangeName(string newName) {
+    // But this is not possible anymore outside the constructor:
+    // this.Name = name;
+  }
+}
+```
 
 ---
 
