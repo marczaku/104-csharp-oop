@@ -48,7 +48,7 @@ Output:Car
   - Use `Console.WriteLine` and pass that instance (object) into the method
 
 
-Need Help? [Here's The Slides!](slides/README.md#4-classes--objects)
+Need Help? [Here's The Slides!](slides/README.md#2-classes--objects)
 
 ## 3 - Class Members:
 
@@ -78,10 +78,12 @@ Output:Hello, my name is Max
   - Put each name into one slot of the Person-Array's `name`
 - Now, call `IntroduceYourself()` on each person of the Array
 
-Need Help? [Here's The Slides!](slides/README.md#5-class-members)
+Need Help? [Here's The Slides!](slides/README.md#3-class-members)
 
-## 4 - Static Class Members:
-[Read the Slides on Static Class Members](../slides/003.5-classes.md#6-static-class-members)
+## 4.1 - Static Class Members:
+
+### Exercise 1
+
 ### Instructions
 - Create a Console Project named `P4StaticClassMembers`
 - Create a `static` class named `SuperMath`
@@ -119,8 +121,106 @@ Output:Lerp from 200 to -100 with t(1.0):-100
 Output:Lerp from 200 to -100 with t(1.3):-190
 ```
 
+Need Help? [Here's The Slides!](slides/README.md#4-static-class-members)
+
+## 4.2 - Static Class Members:
+
+In this exercise, we will build an Employee Management System. We can define up to 100 Employees by giving their names and salaries and we can change the Tax Rate for all employees at any time. We can also print a list of all existing employees to the console. This will print each employee's 
+
+### Goal
+<details>
+   <summary>Toggle Me</summary>
+```
+Output:Do you want to...
+Output:1: List all Employees
+Output:2: Add another Employee
+Output:3: Change the Tax Rate
+Input:1
+Output:Here is all Employees:
+Output:Do you want to...
+Output:1: List all Employees
+Output:2: Add another Employee
+Output:3: Change the Tax Rate
+Input:2
+Output:What's the name?
+Input:Marc
+Output:What's their Salary?
+Input:2000
+Output:Do you want to...
+Output:1: List all Employees
+Output:2: Add another Employee
+Output:3: Change the Tax Rate
+Input:2
+Output:Here is all Employees:
+Output:Employee 1: Marc. Salary: 2000 Taxes (0%): 0 Salary After Taxes: 2000
+Output:Do you want to...
+Output:1: List all Employees
+Output:2: Add another Employee
+Output:3: Change the Tax Rate
+Input:3
+Output:What's the new Tax Rate (0.1 = 10%)?
+Input:0.25
+Output:Do you want to...
+Output:1: List all Employees
+Output:2: Add another Employee
+Output:3: Change the Tax Rate
+Input:2
+Output:What's the name?
+Input:Steve
+Output:What's their Salary?
+Input:1000
+Output:Do you want to...
+Output:1: List all Employees
+Output:2: Add another Employee
+Output:3: Change the Tax Rate
+Input:2
+Output:Here is all Employees:
+Output:Employee 1: Marc. Salary: 2000 Taxes (25%): 500 Salary After Taxes: 1500
+Output:Employee 2: Steve. Salary: 1000 Taxes (25%): 250 Salary After Taxes: 750
+```
+
+</details>
+
+This will be a rather complex exercise. What do we need?
+
+Data:
+- Up to 100 Employees with
+  - Name
+  - Salary
+- Tax Rate which is shared by all Employees
+
+Functions:
+- Ask, what the User wants to do
+  - List all Employees:
+    - Iterate over Employees
+    - Print Name
+    - Print Salary
+    - Print Tax Rate (Shared)
+    - Print Taxes
+    - Print Salary after Taxes
+  - Add another Employee:
+    - Create a new Employee
+    - Ask for the name and assign it
+    - Ask for the salary and assign it
+  - Change the Tax Rate:
+    - Ask for the tax rate
+    - And assign it so it changes for all employees
+
+I want you to:
+- Create an `Employee` class
+- Add all data as fields to the class:
+  - each Employee's name
+  - each Employee's salary
+  - all Employees as an array
+  - all Employees' tax rate
+
+Now, add whatever functions and methods are needed to solve above exercise.
+
+Need Help? [Here's The Slides!](slides/README.md#4-static-class-members)
+
+
 ## 5 - Constructor:
-[Read the Slides on Constructor](../slides/003.5-classes.md#7-constructor)
+[Read the Slides on Constructor](../slides/003.5-classes.md#5-constructor)
 ### Goal
 - To create a Unit class that has an ID and a Name.
 - To create a Method that can give us details about a Unit's Status.
@@ -156,7 +256,7 @@ Output:Unit #2: Necromancer
 ```
 
 ## 6 - Finalizer:
-[Read the Slides on Finalizer](../slides/003.5-classes.md#8-finalizer)
+[Read the Slides on Finalizer](../slides/003.5-classes.md#6-finalizer)
 ### Goal
 - Add a method to our Game that lets us know, if a Unit dies.
 ### Instructions
