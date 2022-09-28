@@ -130,6 +130,7 @@ In this exercise, we will build an Employee Management System. We can define up 
 ### Goal
 <details>
    <summary>Toggle Me</summary>
+   
 ```
 Output:Do you want to...
 Output:1: List all Employees
