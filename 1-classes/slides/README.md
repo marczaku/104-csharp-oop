@@ -752,8 +752,9 @@ public class Cat
 
 }
 ```
+
 Constructors are called when a class is constructed through the `new` key-word\
-There‘s an invisible Parameterless Default-Constructor for every class doing nothing\
+There‘s an invisible Parameter-less Default-Constructor for every class doing nothing\
 Which means, that above class in reality looks like this:
 ```cs
 public class Cat 
@@ -764,7 +765,8 @@ public class Cat
   }
 }
 ```
-This constructor is called, as soon as you create a new instnce of the class with the `new` keyword\
+
+This constructor is called, as soon as you create a new instance of the class with the `new` keyword\
 Note, how we call the Constructor using `()` (a list of zero parameters), just like a parameter-less method:
 ```cs
 Cat meows = new Cat();
@@ -772,6 +774,8 @@ Cat meows = new Cat();
 
 We can actually change the class to proof, that this is happening:
 ```cs
+Cat meows = new Cat();
+
 public class Cat 
 {
   // the invisible, parameter-less constructor looks like this:
@@ -780,31 +784,28 @@ public class Cat
      Console.WriteLine("And thus, a new Cat was born!");
   }
 }
-
-public class Program {
-   static void Main() {
-      Cat meows = new Cat();
-   }
-}
 ```
 
-Output: `And thus, a new Cat was born!`
+Output: 
+```
+And thus, a new Cat was born!
+```
 
 The syntax of a Constructor is:
 ```cs
-public ClassName(parameter-list) {
-   constructor-body
+public ClassName(/*parameters*/) {
+   /*body*/
 }
 ```
 
-You can create your own constructor without parameters, to do some initialization:
+You can create your own constructor without parameters, to do some initialization of our fields:
 
 ```cs
 public class Elephant {
   bool hasTrunk;
 
   // as soon as an elephant is created...
-  publlic Elephant() {
+  public Elephant() {
     // set `hasTrunk` to true
     this.hasTrunk = true;
   }
@@ -812,11 +813,9 @@ public class Elephant {
 ```
 
 You can also create a constructor with parameters, just like you can create a method with parameters:
-
-
 ```cs
 public class Dog {
-  string name;
+  public string name;
   
   // require a parameter in order to construct a new Dog:
   public Dog(string name) {
@@ -830,12 +829,84 @@ public class Dog {
 Now, we can create Dogs using the constructor with the correct parameter:
 ```cs
 Dog woofs = new Dog("Woofs");
+Dog bello = new Dog("Bello");
+Console.WriteLine(woofs.name);
+Console.WriteLine(bello.name);
+```
+
+Output:
+```
+Woofs
+Bello
 ```
 
 But the invisible default constructor has disappeared now, so we cannot use it anymore:
 ```cs
 // Error: No parameter-less constructor exists!
 Dog woofs = new Dog();
+```
+
+You can define multiple Constructors, if you like:
+
+```cs
+public class Circle{
+  public float radius;
+
+  // if the user just wants to have a circle and
+  // doesn't care about the radius, he'll get a 
+  // circle with a radius of 1:
+  public Circle(){
+    radius = 1f;
+  }
+
+  // But he can also use this constructor and pass
+  // a radius
+  public Circle(float radius){
+    this.radius = radius;
+  }
+}
+```
+
+```cs
+Circle a = new Circle();
+Circle b = new Circle(16);
+Console.WriteLine(a.radius);
+Console.WriteLine(b.radius);
+```
+
+Output:
+```
+1
+16
+```
+
+Constructors can keep our code cleaner. Instead of:
+
+```cs
+Employee e = new Employee();
+e.firstName = "Marc";
+e.lastName = "Zaku";
+e.salary = 2000;
+```
+
+You could do:
+```cs
+Employee e = new Employee("Marc", "Zaku", 2000);
+```
+
+If you were to define a constructor:
+
+```cs
+public class Employee{
+  public string firstName;
+  public string lastName;
+  public int salary;
+  public Employee(string firstName, string lastName, int salary){
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.salary = salary;
+  }
+}
 ```
 
 ---
@@ -847,15 +918,14 @@ Sometimes, we want to be notified, when something disappeared.\
 Or we need to do some clean-up (e.g. remove some temporary files)
 
 
-
 The syntax of a Finalizer is:
 ```cs
 ~ClassName() {
-   finalizer-body
+  /*body*/
 }
 ```
 
-Let's have a look at the following class with a finalizer:
+Let's have a look at the following class containing a Finalizer:
 
 ```cs
 public class Animal {
