@@ -464,66 +464,155 @@ The player pets Rex.
 
 ## 4. Static Class Members
 
-- Static class members are part of the class-type
-- And not part of the instances
-- To access them, you use the class‘s type name instead of an instance
-  - Static Field: `public static FieldType fieldName;`
-  - Static Method: `public static ReturnType MethodName() {}`
+Static Class Members are Members which are not stored separately for all individual instances of a class, but instead stored as in a singular, static place in the Memory once for the class type only.
+
+For example, we could have a `Body` class.
+- with non-static Field `weight` (each instance of a Body has its own weight)
+- with a static Field `gravity` (there is only one singular gravity, which affects all Bodies the same)
+
+Defining a Static Field:
+
+```cs
+public class SomeClass{
+  public static FieldType fieldName;
+}
+```
+
+Defining a Static Method:
+
+```cs
+public class SomeClass{
+  public static ReturnType MethodName() 
+  {
+
+  }
+}
+```
+
+Example:
 
 ```cs
 public class Animal {
-  public string name;
-  // This is a static field
+  // Static Field
   public static int count;
-  
-  public void MakeSound() {
-    Console.WriteLine(name + ":...");
-  }
-  
-  // This is a static method
+
+  // Static Function
   static static void PrintCount() {
     Console.WriteLine("Animal-Count: " + count);
   }
 }
+```
 
-static void Main(string[] args) {
-  Animal adam = new Animal();
-  adam.name = "Adam";
-  // Static fields are accessed using the type name
-  Animal.Count++;
-  
-  Animal eva = new Animal();
-  eva.name = "Eva";
-  Animal.Count++;
-  
-  // Static methods are accessed using the type name
-  
-  Animal.PrintCount(); // Output: "Animal-Count: 2"
-  
-  // Non-static mathods require an instance to be called
-  eva.MakeSound(); // Output: "Eva:..."
+You cannot access Static Fields as an instance Members:
+
+```cs
+Animal animal = new Animal();
+animal.Count++; // ERROR!
+```
+
+Instead, Static Fields are accessed through the TypeName:
+
+```cs
+Animal.Count++;
+```
+
+Static Methods are accessed the same way:
+
+```cs
+Animal.PrintCount();
+```
+
+### Accessing Static Fields within a Class
+
+You can access static Fields from within a Static Method:
+
+```cs
+public class Animal {
+  public static int count;
+
+  static static void PrintCount() {
+    Console.WriteLine("Animal-Count: " + count);
+  }
 }
 ```
 
-
-- You can even mark a complete class as `static`
-  - Only, if all Members are marked `static`, too!
-  - This will force you to make all members `static`, too!
-
+But also from within Instance Methods:
 
 ```cs
-// This is a static class:
-public static class Math{
-  public static int Add(int a, int b) {
-    return a + b;
+public Body{
+  public float weight;
+  public static float gravity;
+
+  public void PrintForce(){
+    Console.WriteLine($"{weight}kg body is affected by {gravity} Gravity.");
   }
 }
 ```
 
 ```cs
-// ERROR: A static class cannot have instance members:
+Body a = new Body();
+a.weight = 20;
+Body.gravity = -9.81f;
+Body b = new Body();
+b.weight = 30;
+a.PrintForce();
+b.PrintForce();
+```
+
+Output:
+```
+20kg body is affected by -9.81 Gravity.
+30kg body is affected by -9.81 Gravity.
+```
+
+But you cannot access Instance Members from a Static Method! (Why?)
+
+```cs
+public Body{
+  public float weight;
+  public static float gravity;
+
+  public static void ExplainGravity(){
+    // ERROR:
+    Console.WriteLine($"Gravity {gravity} affects all bodies the same. Including a body of {weight}kg.");
+  }
+}
+```
+
+```cs
+Body a = new Body(); a.weight = 20;
+Body.gravity = -9.81f;
+Body b = new Body(); b.weight = 20;
+Body c = new Body(); c.weight = 20;
+Body.ExplainGravity();
+```
+
+### Static Class
+
+You can even mark a complete `class` as `static`
+
+```cs
 public static class Math{
-  public int Add(int a, int b) {
+
+}
+```
+
+This works, if all its Members are `static`:
+
+```cs
+public static class Math{
+  public static int Add(int a, int b) {
+    return a + b;
+  }
+  public static float PI = 3.14f;
+}
+```
+
+It is not allowed to have non-static Members!
+
+```cs
+public static class Math{
+  public int Add(int a, int b) { // ERROR
     return a + b;
   }
 }
@@ -532,56 +621,118 @@ public static class Math{
 It will disable using the `new` keyword to create instances of this class
 
 ```cs
-public static void Main() {
-  // ERROR: This is not possible:
-  Math math = new Math();
-}
+Math math = new Math(); // ERROR
 ```
+
+Which kind of makes sense, why would you allow people to create multiple Maths? :D
+
+### Comparison
 
 Once more, to compare, for a class named `Tree`:
 
 -| static | instance
- :--: | :--: | :--:
+-- | -- | --
 keyword | `static` | none (default)
-define a field | `public static int count;` | `public int height;`
-write to a field | `Tree.count = 5;` | `Tree tree = new Tree(); tree.height = 5;`
-read a field | `int i = Tree.count;` | `Tree tree = new Tree(); int i = tree.height;`
-define a method | `public static string PrintDefinition(){}` | `public void DoPhotosynthesis(){}`
-use a method | `Tree.PrintDefinition();` | `Tree tree = new Tree(); tree.DoPhotosynthesis();`
+Define a Field | `public static int count;` | `public int height;`
+Write to a Field | `Tree.count = 5;` | `/*requires tree instance*/ tree.height = 5;`
+Read from a Field | `int i = Tree.count;` | `/*requires tree instance*/ int i = tree.height;`
+Define a Method | `public static string PrintDefinition(){}` | `public void DoPhotosynthesis(){}`
+Use a Method | `Tree.PrintDefinition();` | `/*requires tree instance*/ tree.DoPhotosynthesis();`
 
-Now, you probably wonder:\
-When to use `static` and when not to?
+### To Static Or Not To Static?
 
-The question you need to ask for Fields:
-Is the Field, that you want to add, something you want every instance to own by itself? e.g.:
-- a house's color (one Houe might be red, another one blue)
-- a person's name (one person is called Max, another one Anna)
-- a unit's health (one unit might have full health, the other one might be almost dead)
-Then make it an intance field.
+<details>
+  <summary> Toggle Me </summary>
 
-Is the Field something that is shared across all instances of a class? e.g.:
-- a counter for how many enemies have been spawned
-- a global buff that is applied to all units (like 10% extra damage for everyone)
-Then make it a static field.
+#### Fields
 
-Do you want to easily access this information globally, because you need it only in one place, e.g.:
-- a timer, how long the game still lasts
-- the current score of the player
-- the information, whether the game is paused
-Then you can also make it a static field (at least for now, I will later strongly discourage you of using static fields)
+Make it non-static, if EACH instance should have a Property. This ensures, that each can have a different value.
+- each House has a color.
+- each Person has a name.
+- each Tree has a height.
 
-The question you can ask for Methods:
-Does the Method require any information from a class's instance? e.g.:
-- The `TakeDamage`-Method needs to access a spawned unit's `health`
-- The `Attack`-Method needs sto know, who is attacking, and how much damage the attacker can deal
-- The `SetPosition`-Method needs to set a certain GameObject's position
-Then you want to use an instance Method
+```cs
+public class House{
+  public string color;
+}
+```
 
-Is the Method a very Generic Method, that works independent of an instance of a class? e.g.:
-- Any `Math`-function; Mathematical functions don't need to know, who wants to add two numbers, the result will be the same
-- A Method that can calculate a path between to locations in an RTS
-Then make the method static. Usually, static functions are really used for Calculations and Formulas only
+Make it static, if ALL instances should have a shared Property. This makes it easily accessible by all instances and avoids duplication.
+- all physical objects share the same gravity.
+- all instances can increase the same counter to count, how many instances exist.
+- all instances can use the same field to keep track of the newest or most important instance.
 
+```cs
+public class Monster{
+  public static int totalMonsterCount;
+  public void Spawn(){
+    totalMonsterCount++;
+  }
+}
+```
+
+You can also make a Field static, just to make something easily accessible, which you only expect to have one instance of
+- one GameManager
+- one MonsterSpawner
+- one PathFinding-Grid
+
+```cs
+public class GameManager{
+  public static GameManager instance;
+}
+//...
+GameManager.instance = new GameManager();
+//...
+GameManager.instance.RestartGame();
+```
+
+#### Methods
+
+Make them non-static, if they access any non-static Fields or Methods within a class.
+- `Eat()` on an Animal will access the `hungriness` of an animal instance.
+- `Jump()` on a Player will access the `velocity` of the player instance.
+- `CalculateArea()` on a Circle will access the `radius` of the circle instance.
+
+```cs
+public class Circle{
+  public float radius;
+  public float CalculateArea(){
+    return 3.14f * radius * radius;
+  }
+}
+```
+
+Make them static, whenever they don't need access to non-static Fields or Methods within a class.
+- `CreateNewMonster()` on a Monster will create and return a new Monster and not access values of any existing Monster instance.
+- `QuitGame()` on your Game-Class might just Quit the Game without accessing any game information.
+
+```cs
+public class Game{
+  public static void PrintWelcomeMessage(){
+    Console.WriteLine("Welcome to Game.");
+  }
+}
+```
+
+Note: You can sometimes make Methods, which require non-static Members, static by requesting the non-static Members as Parameters:
+
+The Circle from before would now look like this:
+```cs
+public class Circle{
+  public float radius;
+  public static float CalculateArea(float radius){
+    return 3.14f * radius * radius;
+  }
+}
+```
+
+Why would you do that? Sometimes, the Methods might be useful for other classes as well. Maybe, the Cone-Class wants to calculate the Area of its top and bottom parts. It can now do:
+
+```cs
+float topArea = Circle.CalculateArea(coneRadius);
+```
+
+</details>
 
 ---
 
@@ -731,9 +882,13 @@ static void Main(string[] args) {
     // The old animal variable will then be out of scope
     // And therefore cleaned up by the garbage collector at some point
     // This will call the finalizer (whenever the GC decides to "wake up"
-    // To speed this process up, since the garbage collector is slow and lazy:
+    // To speed this process up, since the garbage collector is slow and lazy
     // We can call it manually:
     GC.Collect();
+    // The following command makes the Program pause for
+    // a short moment, which increases the chances of the
+    // Garbage Collector to complete his work in time.
+    Thread.Sleep(100);
   }
 }
 ```
@@ -755,9 +910,9 @@ The output might confuse you. But it can be explained:
 
 To summarize the Finalizer:
 - Opposite of a Constructor
-- Defined through `~ClassName()` `{}` Method Signature
+- Defined through `~ClassName(){}` Method Signature
 - Unreliable (You never know, when it‘s called)
 - Dependant on when the Garbage Collector Collects the Object
-- Better: IDisposable-Pattern
+- Better (later): `IDisposable`-Pattern
 
 ---
