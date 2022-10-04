@@ -3,140 +3,239 @@
 Encapsulation allows us to restrict access to internal data (fields) and functions (methods) of classes and how this feature enables us to validate input, ensure the integrity of the internals of our class and even do complex calculations every time an information is requested.
 
 ## 7. Access Modifiers
-```cs
-public class Animal {
-// Private is only accessible by this class
-// Everything is private per default
-  Color color;
-// public is accessible by everyone
-  public string name;
-  // protected is only accessible by this class and inheritors
-  protected int age;
-  
-  public Animal(int id) {
-    this.id = id;
-  }
 
-  public void SetAge(int value) {
-    this.age = value;
+### Public
+
+```cs
+public class Person
+{
+  public string name;
+  public void Greet()
+  {
+    Console.WriteLine($"Hello, my name is {name}.");
   }
-}
-static void Main(string[]args) {
-var animal = new Animal(5);
-  // ERROR: Cannot access private field
-  animal.id = 3;
-  // Valid: name is a public field
-  animal.name = "Adam";
-  // ERROR: cannot access protected field
-  animal.age = 5;
-  // Valid: SetAge is a public method
-  animal.SetAge(5);
 }
 ```
 
-Access modifiers are used to limit access to class-Members.\
-Sometimes, you don't want other classes to fiddle around with your internal values.\
-- e.g. you don't want a class to just set the player's weapon to `null`
-- or you don't want other classes to read your application's Security Token
+So far, we have used the `public` access modifier a lot for:
+- classes
+- methods
+- fields
 
-Also, you want to make sure, that other classes only see, what they need to see about your class.
-- it makes your classes appear more simple, than they actually are
-- which makes it easier to use it
+But why?
+
+```cs
+public class Person {}
+```
+
+We made classes public, so it would be accessible from other files within our project.
+
+```cs
+Person person = new Person();
+person.name = "Hans";
+Console.WriteLine(person.name);
+public class Person {
+  public string name;
+}
+```
+
+We made fields public, so we'd be able to access the fields from outside the class' body. Both for
+- assigning a value
+- reading the value
+
+```cs
+Person person = new Person();
+person.SayHello();
+public class Person {
+  public void SayHello(){
+    Console.WriteLine("Hello.");
+  }
+}
+```
+
+And we made methods public so we'd be able to invoke them from outside the class.
+
+### Private
+
+```cs
+Person person = new Person();
+person.name = "Hans"; // ERROR: Cannot access private field
+Console.WriteLine(person.name); // ERROR: Cannot access private field
+public class Person{
+  private string name;
+}
+```
+
+If we use the `private` Keyword on a field, it means that it cannot be accessed outside the class anymore for
+- reading the value
+- assigning a value
+
+```cs
+public class Person{
+  private int comboCounter;
+  private void Attack(Enemy enemy){
+    enemy.TakeDamage(1);
+    comboCounter++;
+  }
+}
+```
+
+But we can still access the field from other members within the class.
+
+### Getter & Setter
+
+```cs
+Person person = new Person();
+person.SetName("Hans");
+Console.WriteLine(person.GetName());
+public class Person{
+  private string name;
+  public void GetName(){
+    return name;
+  }
+  public void SetName(string value){
+    name = value;
+  }
+}
+```
+
+If you want to allow other classes to be able to 
+- read the value of a private field
+- assign a value to the private field
+
+You can create so-called Getter and Setter Methods, which are usually named
+- `Get{FieldName}`
+- `Set{FieldName}`
+- where `{FieldName}` is replaced with the name of the field
+
+But why would you do that?
+
+### Data Validation
+
+```cs
+Person person = new Person();
+person.SetName("Hans");
+person.SetName("");
+Console.WriteLine(person.GetName());
+public class Person{
+  private string name;
+  public void GetName(){
+    return name;
+  }
+  public void SetName(string value){
+    if(string.IsNullOrEmpty(value)){
+      Console.WriteLine("Error. Can not assign an invalid name to Person.");
+      return;
+    }
+    name = value;
+    Console.WriteLine($"Successfully changed the name to: {value}.");
+  }
+}
+```
+
+Output:
+```
+Successfully changed the name to: Hans.
+Error. Can not assign an invalid name to Person.
+Hans
+```
+
+You can use it to validate the value that the user of a class wants to assign to your Field.\
+This is important to avoid users from introducing bugs by accident and only noticing it when it's too late.
+
+### Data Calculation
+
+```cs
+Person person = new Person();
+person.SetName("Hans");
+Console.WriteLine(person.GetName());
+person.Promote();
+Console.WriteLine(person.GetName());
+person.SetName("Will");
+Console.WriteLine(person.GetName());
+public class Person{
+  private string name;
+  private bool isPromoted;
+
+  public void GetName(){
+    if(isPromoted){
+      return "Officer " + name;
+    }
+    return name;
+  }
+
+  public void SetName(string value){
+    if(string.IsNullOrEmpty(value)){
+      Console.WriteLine("Error. Can not assign an invalid name to Person.");
+      return;
+    }
+    name = value;
+    Console.WriteLine($"Successfully changed the name to: {value}.");
+  }
+
+  public void Promote(){
+    isPromoted = true;
+    Console.WriteLine($"Promoted {Hans}.")
+  }
+}
+```
+
+Output:
+```
+Successfully changed the name to: Hans.
+Hans
+Promoted Hans.
+Officer Hans
+Successfully changed the name to: Will.
+Officer Will
+```
+
+You can calculate the actual value of a Property whenever it is accessed.\
+In above example, the actual displayed name is calculated when `GetName` is invoked:
+- Officer Hans, if Hans got promoted.
+- Hans, if Hans has not gotten promoted, yet.
+
+### Hiding Complexity
+
+```
+Next
+NextBytes
+NextDouble
+NextInt64
+NextSingle
+```
+
+Also, you want to hide unnecessary complexity. Above, you can see all the Methods that are publicly accessible in System.Random class.
+
+```
+MBIG
+MSEED
+MZ
+inext
+inextp
+SeedArray
+Sample
+InternalSample
+GetSampleForLargeRange
+```
+
+And above are a few more members which are accessible only within the class.
+
+It's much nicer and easier to use, if we have less options. This makes a good and clean so-called interface of a class.
+
 - think about Bluetooth Headphones
   - do you understand, how they work internally?
   - or are you happy, that you only need a Power and a Connect Button to use them?
 
-You can use access modifiers on classes, fields, method, properties.\
-Just put the access modified before it.
-- `private` (default): available to owning class only
-- `protected`: available to owning class and inheriting classes (more on that later)
-- `public`: available to all classes
-- `internal`: same as `public`, but only within the same Project
-  - We will see later, that we can actually have Solutions consisting of multiple Projects!
+### protected and internal
 
-Let's see, how they each work:
+These modifiers are not so important at this point and are intentionally left out.
 
-This code sample is invalid, because the default access modifier is `private`\
-And we cannot access implicitly `private` Members from outside the class:
-
-```cs
-public class Person {
-   string name;
-}
-
-static void Main() {
-   Person max = new Person();
-   max.name = "Max";
-}
-```
-
-This code sample is invalid.\
-We cannot access explicitly `private` Members from outside the class:
-
-```cs
-public class Person {
-   private string name;
-}
-
-static void Main() {
-   Person max = new Person();
-   max.name = "Max";
-}
-```
-
-This code sample is valid.\
-We can access `public` Members from outside the class:
-
-```cs
-public class Person {
-   public string name;
-}
-
-static void Main() {
-   Person max = new Person();
-   max.name = "Max";
-}
-```
-
-Let's have a real-world code-sample for Access Modifiers:
-
-```cs
-public class Circle {
-  // radius is private to avoid other classes of assigning invalid values
-  double radius;
-  
-  // area is private to avoid other classes of assigning other values (which are not really the area)
-  double area;
-  
-  // SetRadius is a public method that you can use to set the radius
-  // It validates the radius and updates the area as well
-  public void SetRadius(double radius) {
-    if (radius <= 0)
-      return;
-    this.radius = radius;
-    this.area = Math.PI * radius * radius;
-  }
-  
-  // GetRadius is a public method to read the radius
-  public double GetRadius() {
-    return this.radius;
-  }
-  
-  // GetArea is a public method to read the area
-  public double GetArea() {
-    return this.area;
-  }
-}
-```
-
-Which one to use?
+### Which one to use?
 - Make as much use of `private` as possible
   - It offers less confusion to users of your class, if they can only change values that make sense
   - It makes your code more easy to change, because other classes can not rely on `private` fields / methods
   - It prevents other classes to „break“ your classes through invalid changes
-  
-- Use `protected` if you use inheritance
-  - And only, if you expect inheriting classes to need access to a certain field / method
   
 - Use `public` for everything you want to make available
   - It should be your conscious intention to make sth. public
