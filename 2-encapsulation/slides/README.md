@@ -1,6 +1,6 @@
 # Slides 2 - Encapsulation
 
-## 9. Access Modifiers
+## 7. Access Modifiers
 ```cs
 public class Animal {
 // Private is only accessible by this class
@@ -145,7 +145,7 @@ Which one to use?
 ---
 
 
-## 10. Properties
+## 8. Properties
 
 
 Properties are used in `C#` to Replace Getter and Setter Method.\

@@ -913,9 +913,13 @@ public class Employee{
 
 ## 6. Finalizer
 
-A Finalizer allows us to take control over what happens as soon as a class instance (object) is destroyed.\
-Sometimes, we want to be notified, when something disappeared.\
-Or we need to do some clean-up (e.g. remove some temporary files)
+A Finalizer allows us to take control over what happens as soon as a class instance (object) is "destroyed".\
+
+### Use Cases:
+- be notified when an object is no longer in use
+  - e.g. When a loaded image is no longer displayed anywhere (so it can get unloaded)
+- do some cleaning up after a class is no longer in use
+  - e.g. A class for Logging could close and save the File Handle when it gets finalized.
 
 
 The syntax of a Finalizer is:
@@ -945,7 +949,6 @@ Now, let's create and Finalize a few animals:
 ```cs
 static void Main(string[] args) {
   for ( var i = 0; i < 2; i++) {
-    // This will call the Constructor
     var animal = new Animal(); // Output: Animal created.
     
     // At this point, the loop will start again
