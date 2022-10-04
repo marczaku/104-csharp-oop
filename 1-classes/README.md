@@ -130,7 +130,7 @@ In this exercise, we will build an Employee Management System. We can define up 
 ### Goal
 <details>
    <summary>Toggle Me</summary>
-   
+
 ```
 Output:Do you want to...
 Output:1: List all Employees
@@ -221,11 +221,19 @@ Need Help? [Here's The Slides!](slides/README.md#4-static-class-members)
 
 
 ## 5 - Constructor:
-[Read the Slides on Constructor](../slides/003.5-classes.md#5-constructor)
+
 ### Goal
 - To create a Unit class that has an ID and a Name.
 - To create a Method that can give us details about a Unit's Status.
 - Later, this Unit will serve as our Combat Target in our RPG.
+
+### Sample
+```
+Output:Unit #0: Zombie
+Output:Unit #1: Skeleton
+Output:Unit #2: Necromancer
+```
+
 ### Instructions
 - Create a Console Project named `RPG`
 - Create a class named `Unit`
@@ -249,17 +257,22 @@ Need Help? [Here's The Slides!](slides/README.md#4-static-class-members)
   - Make sure, that this Method call stays at the bottom of the constructor at all times!
   - I think it's best to put a comment there right away: `// Make sure, that this is the last line of the constructor:`
 
-### Sample
-```
-Output:Unit #0: Zombie
-Output:Unit #1: Skeleton
-Output:Unit #2: Necromancer
-```
+Need Help? [Here's The Slides!](slides/README.md#5-constructor)
 
 ## 6 - Finalizer:
-[Read the Slides on Finalizer](../slides/003.5-classes.md#6-finalizer)
+
+### Sample
+
 ### Goal
 - Add a method to our Game that lets us know, if a Unit dies.
+
+Note: actually, no new output appears, but while you put the sample code above in your code, this should pop up:
+```
+[...](previous Output)
+Output:Unit #3: LivingHand
+Output:Unit #4: LivingHand
+Output:Unit #3: LivingHand got finalized.
+```
 ### Instructions
 - Continue working on the Project `RPG`
 - Add a Finalizer to the Unit Class
@@ -274,11 +287,7 @@ for(int i = 0; i < 2; i++){
 - But please remove it again afterwards, we're trying to make a "real" game here.
 - And this feature will pop back up again later.
 
-### Sample
-Note: actually, no new output appears, but while you put the sample code above in your code, this should pop up:
-```
-[...](previous Output)
-Output:Unit #3: LivingHand
-Output:Unit #4: LivingHand
-Output:Unit #3: LivingHand got finalized.
-```
+Need Help? [Here's The Slides!](slides/README.md#6-finalizer)
+
+## Done?
+Return to the [Overview](../../../#2-encapsulation)

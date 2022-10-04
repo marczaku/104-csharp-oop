@@ -1,10 +1,30 @@
 # Exercises 2 - Encapsulation
 
+Encapsulation allows us to restrict access to internal data (fields) and functions (methods) of classes and how this feature enables us to validate input, ensure the integrity of the internals of our class and even do complex calculations every time an information is requested.
+
 ## 7 - Access Modifiers:
-[Read the Slides on Access Modifiers](../slides/003.5-classes.md#9-access-modifiers)
+
 ### Goal
+
 - Add Health and MaxHealth to our Unit.
 - Make sure, that Health can never be less than 0 or more than MaxHealth.
+
+### Sample
+
+```
+[...](previous Output)
+Output:Unit #3: Leet - 1337/1337 Health
+Output:What do you want Leet's Health to be?
+Input:1234
+Output:Unit #3: Leet - 1234/1337 Health
+Output:What do you want Leet's Health to be?
+Input:-100
+Output:Unit #3: Leet - 0/1337 Health
+Output:What do you want Leet's Health to be?
+Input:2000
+Output:Unit #3: Leet - 1337/1337 Health
+```
+
 ### Instructions
 - Continue working on the Project `RPG`
 - Add two new fields to the `Unit` Class. Both fields should NOT be accessible from outside the class!
@@ -31,26 +51,28 @@
   - Asking the User 3 times, to what value he wants to change the Unit's health
   - Assign the given value each time to the Unit's `SetHealth`-Method:
 
+Need Help? [Here's The Slides!](slides/README.md#7-access-modifiers)
+
+## 8 - Properties:
+
+### Goal
+- Improve our Code's Readability a bit.
+- Change the Game to have a Game Loop that runs as long as the Spawned Unit is alive.
+
 ### Sample
 ```
-[...](previous Output)
 Output:Unit #3: Leet - 1337/1337 Health
 Output:What do you want Leet's Health to be?
 Input:1234
 Output:Unit #3: Leet - 1234/1337 Health
 Output:What do you want Leet's Health to be?
-Input:-100
-Output:Unit #3: Leet - 0/1337 Health
-Output:What do you want Leet's Health to be?
 Input:2000
 Output:Unit #3: Leet - 1337/1337 Health
+Output:What do you want Leet's Health to be?
+Input:-100
+Output:Unit #3: Leet - 0/1337 Health
 ```
 
-## 8 - Properties:
-[Read the Slides on Properties](../slides/003.5-classes.md#11-properties)
-### Goal
-- Improve our Code's Readability a bit.
-- Change the Game to have a Game Loop that runs as long as the Spawned Unit is alive.
 ### Instructions
 - Continue working on the Project `RPG`
 - Replace the Method `SetHealth` with a public Property named `Health` of type `int`
@@ -60,29 +82,13 @@ Output:Unit #3: Leet - 1337/1337 Health
   - Don't ask the user 3 times for Leet's new Health
   - But instead ask him for as long as Leet's Health is greater than zero
 
-### Sample
-```
-Output:Unit #3: Leet - 1337/1337 Health
-Output:What do you want Leet's Health to be?
-Input:1234
-Output:Unit #3: Leet - 1234/1337 Health
-Output:What do you want Leet's Health to be?
-Input:2000
-Output:Unit #3: Leet - 1337/1337 Health
-Output:What do you want Leet's Health to be?
-Input:-100
-Output:Unit #3: Leet - 0/1337 Health
-```
+Need Help? [Here's The Slides!](slides/README.md#8-properties)
 
 ## 8.1 - Properties:
 ### Goal
 - Right now, you can change our Unit's `name` at any time.
 - Try it: Try adding: `Unit test = new Unit("Abc", 100); test.name = "Def";`
 - This is not behaviour that we want. Let's change that.
-### Instructions
-- Continue working on the Project `RPG`
-- Change the field `name` to be a Property named `Name` which only has a `get`, but no `set`
-  - You can still assign the value in the constructor, but nowhere else anymore
 
 ### Sample
 Adding this code should not compile anymore:
@@ -101,6 +107,10 @@ Console.WriteLine(test.Name);
 ```
 Output:Abc
 ```
+### Instructions
+- Continue working on the Project `RPG`
+- Change the field `name` to be a Property named `Name` which only has a `get`, but no `set`
+  - You can still assign the value in the constructor, but nowhere else anymore
 
 ## 8.2 - Properties:
 ### Goal
@@ -109,13 +119,6 @@ Output:Abc
 - Then, what are we actually checking?
 - Whether the Unit is alive or dead
 - Let's have our code express this in a nice way!
-### Instructions
-- Continue working on the Project `RPG`
-- Add a property named `IsAlive` of type `bool` to the `Unit` Class
-  - It should have a `get` that returns `true`, if `health` is greater than zero
-  - And `false` in any other case
-- In the Game Loop, use this property instead of reading the Health!
-- You can Remove the `Health` Property's `get` now!
 
 ### Sample
 Adding this code should not compile anymore:
@@ -131,22 +134,19 @@ Unit test = new Unit("Abc", 100);
 test.Health = 500;
 ```
 
+### Instructions
+- Continue working on the Project `RPG`
+- Add a property named `IsAlive` of type `bool` to the `Unit` Class
+  - It should have a `get` that returns `true`, if `health` is greater than zero
+  - And `false` in any other case
+- In the Game Loop, use this property instead of reading the Health!
+- You can Remove the `Health` Property's `get` now!
+
 ## 8.3 - Properties:
 ### Goal
 - Prepare our Game for Enemy Attacks by changing the Game 
   - From setting the Health directly from 100 to 80
   - To instead say, that we want to deal 20 damage
-### Instructions
-- Continue working on the Project `RPG`
-- Make the `set` on `Health` private, so no other class can adjust the value directly anymore
-- Introduce a `public` method named `Damage`
-  - It returns nothing
-  - It takes a parameter named `value` of type `int`
-  - It then subtracts `value` from our current `Health` and assigns it to `Health`
-- Change the Game Loop, so it does
-  - Not ask anymore, what we want Leet's Health to be
-  - But instead asks, how much damage we want to deal
-  - And then calls the `Damage`-Method with that value
 
 ### Sample
 ```
@@ -162,4 +162,18 @@ Input:2000
 Output:Unit #3: Leet - 0/1337 Health
 ```
 
-Continue with [003.5.2 Console Classes 2](003.5.2-console-classes-2.md)
+### Instructions
+- Continue working on the Project `RPG`
+- Make the `set` on `Health` private, so no other class can adjust the value directly anymore
+- Introduce a `public` method named `Damage`
+  - It returns nothing
+  - It takes a parameter named `value` of type `int`
+  - It then subtracts `value` from our current `Health` and assigns it to `Health`
+- Change the Game Loop, so it does
+  - Not ask anymore, what we want Leet's Health to be
+  - But instead asks, how much damage we want to deal
+  - And then calls the `Damage`-Method with that value
+
+## Done?
+Return to the [Overview](../../../#3-inheritance)
+

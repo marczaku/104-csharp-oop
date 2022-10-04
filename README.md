@@ -18,7 +18,7 @@ This course focuses on the features of C# that allow Object-Oriented-Programming
 |U|Failed (F)| 0% |
 -------------------------------
 
-Check out the [Scoring Table](assignments/003.5.3-console-classes-rpg.md) to understand, what grade to expect depending on the features that you've implemented:
+Check out the [Scoring Table](5-game-on) to understand, what grade to expect depending on the features that you've implemented:
 
 # 0 First Steps
 - [ ] Start the [Assignment on Google and GitHub Classroom](https://gist.github.com/marczaku/3b1853ee30575093b106ecc480d563b2).
@@ -29,17 +29,23 @@ We'll learn the basics of Object-Oriented Programming and how to define and inst
 
 [Let's Get Started!](1-classes)
 
-# 2 Inheritance
+# 2 Encapsulation
 ## Goal
-Here, we will learn about using Loop-Keywords to structure our Program in repeatable iterations. This way, we can replace the use of the `goto`-Keyword with more standardized functions. Increasing our code's readability.
+Encapsulation allows us to restrict access to internal data (fields) and functions (methods) of classes and how this feature enables us to validate input, ensure the integrity of the internals of our class and even do complex calculations every time an information is requested.
 
-[Let's Get Started!](2-inheritance)
+[Let's Get Started!](2-encapsulation)
 
-# 3 Abstraction
+# 3 Inheritance
 ## Goal
 Loops allow us to repeat the same instructions 100 times or even a million times. But how can we store 100 or even a million variables? The answer is: using Arrays. We'll learn about what Arrays are and how to use them to store and read information from them.
 
-[Let's Get Started!](3-abstraction)
+[Let's Get Started!](3-inheritance)
+
+# 4 Abstraction
+## Goal
+Loops allow us to repeat the same instructions 100 times or even a million times. But how can we store 100 or even a million variables? The answer is: using Arrays. We'll learn about what Arrays are and how to use them to store and read information from them.
+
+[Let's Get Started!](4-abstraction)
 
 # 4 Game On
 ## Goal

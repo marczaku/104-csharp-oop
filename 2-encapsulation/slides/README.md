@@ -1,5 +1,7 @@
 # Slides 2 - Encapsulation
 
+Encapsulation allows us to restrict access to internal data (fields) and functions (methods) of classes and how this feature enables us to validate input, ensure the integrity of the internals of our class and even do complex calculations every time an information is requested.
+
 ## 7. Access Modifiers
 ```cs
 public class Animal {

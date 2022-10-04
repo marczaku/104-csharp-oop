@@ -1,6 +1,6 @@
 # Exercises 5 - Game On
 
-You find detailed instructions on how to implement these features [Here](003.5.1-console-classes-1.md).\
+You find detailed instructions on how to implement these features [Here](../../../1-classes#5-construtor) and on further slides.\
 Just watch out for all Assignments that work on the `RPG`-Project.
 
 Here's the set of features that I'll be looking for:
