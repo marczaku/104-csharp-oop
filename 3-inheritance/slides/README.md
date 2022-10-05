@@ -1,6 +1,8 @@
 # Slides 3 - Inheritance
 
-## 2. Inheritance 
+Inheritance allow us to share code between classes by putting it into a common base class. It allows for very useful code principles as polymorphism, which ensure that we can write code for all classes that share a common ancestor.
+
+## 9. Inheritance 
 
 Inheritance in C# allows us, to reuse code more efficiently by putting shared behaviour in base-classes and inheriting from them.\
 Imagine for example, a class for `Animal`, which contains all logic for Animals, like needing to drink and eat, being able to move around, age, ...\
@@ -157,7 +159,7 @@ public class Dolphin : AnimalInTheSea, Mammal { }
 
 ---
 
-## 3. Polymorphism 
+## 10. Polymorphism 
 
 ```cs
 public class Animal { }
@@ -309,7 +311,7 @@ static void Main(string[] args) {
 
 ---
 
-## 4. Abstraction
+## 11. Abstraction
 
 - Sometimes, you want to provide a common base class
 - But that base class does not serve any purpose on its own
@@ -395,7 +397,7 @@ public class Mouse : Animal { }
 
 ---
 
-## 5. Composition
+## 12. Composition
 
 
 - Another solution to inheritance?

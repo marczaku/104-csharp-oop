@@ -37,7 +37,7 @@ Encapsulation allows us to restrict access to internal data (fields) and functio
 
 # 3 Inheritance
 ## Goal
-Loops allow us to repeat the same instructions 100 times or even a million times. But how can we store 100 or even a million variables? The answer is: using Arrays. We'll learn about what Arrays are and how to use them to store and read information from them.
+Inheritance allow us to share code between classes by putting it into a common base class. It allows for very useful code principles as polymorphism, which ensure that we can write code for all classes that share a common ancestor.
 
 [Let's Get Started!](3-inheritance)
 

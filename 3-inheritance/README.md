@@ -1,5 +1,8 @@
 # Exercises 3 - Inheritance
 
+Inheritance allow us to share code between classes by putting it into a common base class. It allows for very useful code principles as polymorphism, which ensure that we can write code for all classes that share a common ancestor.
+
+## Some Pre-Work
 
 ### Goal
 - Prepare our Game for Enemy Attacks by changing the Game 
@@ -33,7 +36,7 @@ Input:2000
 Output:Unit #3: Leet - 0/1337 Health
 ```
 
-## 12 - Inheritance:
+## 9 - Inheritance:
 [Read the Slides on Inheritance](../slides/003.5-classes-2.md#2-inheritance)
 ### Goal
 - Introduce a new Unit: The Necromancer
@@ -67,7 +70,7 @@ Input:100
 Output:Unit #3: Necromancer - 0/200 Health
 ```
 
-## 12.1 - Inheritance:
+## 9.1 - Inheritance:
 ### Goal
 - Clean Up our Code by moving the `Resurrect`-Logic to its own Method.
 ### Instructions
@@ -76,7 +79,7 @@ Output:Unit #3: Necromancer - 0/200 Health
   - And move it to its own `private` Method named `Resurrect`
   - Call this Method from within the `Necromancer`'s `Damage`-Method instead of the two lines of code that currently do so
 
-## 12.2 - Inheritance:
+## 9.2 - Inheritance:
 ### Goal
 - Clean Up our Code by renaming the `Damage`-Method
 ### Instructions
@@ -86,7 +89,7 @@ Output:Unit #3: Necromancer - 0/200 Health
 - And `Damage` can either be a Verb (to damage) or a Noun (the damage)
 - `TakeDamage` more specifically describes, what the method does
 
-## 12.3 - Inheritance:
+## 9.3 - Inheritance:
 ### Goal
 - Clean Up our Code by using another Property instead of checking for the `Health` directly in `NecroMancers`'s `TakeDamage`-Method.
 ### Instructions
@@ -94,7 +97,7 @@ Output:Unit #3: Necromancer - 0/200 Health
 - Introduce a new Property `IsDead` of type `bool` to the `Unit`
   - Have it return `true`, if the `Unit` is not `IsAlive` and `false`, if the unit `IsAlive`
 
-## 13 - PolyMorphism:
+## 10 - PolyMorphism:
 [Read the Slides on Polymorphism](../slides/003.5-classes-2.md#3-polymorphism)
 ### Goal
 - Make random Units spawn 3 times in a row.
@@ -149,7 +152,7 @@ Output:Unit #5: Unit - 0/250 Health
 Output:Game Over.
 ```
 
-## 13.1 - PolyMorphism:
+## 10.1 - PolyMorphism:
 ### Goal
 - Make the game more expressive by adding additional Messages to the Console.
 ### Instructions
@@ -190,7 +193,7 @@ Output:Unit #5: Unit has died!
 Output:Game Over.
 ```
 
-## 14 - Abstraction:
+## 11 - Abstraction:
 [Read the Slides on Abstraction](../slides/003.5-classes-2.md#4-abstraction)
 ### Goal
 - Make `Unit` to be a base-class, which we cannot instantiate by itself anymore.
@@ -199,7 +202,7 @@ Output:Game Over.
 - Make the `Unit`-class `abstract` by using the `abstract`-keyword before the `class`-keyword
 - Adjust the `SpawnNewUnit`-Method, so it can not spawn `Unit` anymore, only `Necromancer`
 
-## 14.1 - Abstraction:
+## 11.1 - Abstraction:
 ### Goal
 - Implement more enemies: `Skeleton`, `Hedgehog`, `Bomb`
 ### Instructions
@@ -220,7 +223,7 @@ Output:Game Over.
   - extend the Random Number to give results between 0 and 2
   - And map each of these numbers to a `Unit` that is then created
 
-## 14.2 - Abstraction:
+## 11.2 - Abstraction:
 ### Goal
 - Implement the `Hero` as a class, so the Player can play (and die) himself, too!
 ### Instructions
@@ -233,7 +236,7 @@ Output:Game Over.
 - If the three monsters were killed before the `Hero` `IsDead`
   - Print `Game Over. You Win.`
 
-## 14.3 - Abstraction:
+## 11.3 - Abstraction:
 ### Goal
 - Implement real Attacks!
 ### Instructions
@@ -260,7 +263,7 @@ hero.Attack(monster);
 monster.Attack(hero);
 ```
 
-## 15 - Composition:
+## 12 - Composition:
 [Read the Slides on Composition](../slides/003.5-classes-2.md#5-composition)
 ### Goal
 - Remove the `Power`-Property from the `Unit`-Class and replace it with a `Weapon`-Property.
@@ -290,7 +293,7 @@ monster.Attack(hero);
 - Add a new Message to Attacks that looks like this:
 `Unit #3: Hero uses TrainingWeapon to attack Unit #4: Necromancer for 66 Damage.`
 
-## 15.1 - Composition (BONUS):
+## 12.1 - Composition (BONUS):
 ### Goal
 - Implement the `Bomb`'s Explosion Feature fully: When it explodes after 5 rounds, it deals 500 Damage to the Player.
 ### Instructions
