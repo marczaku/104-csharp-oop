@@ -107,10 +107,13 @@ Console.WriteLine(test.Name);
 ```
 Output:Abc
 ```
+
 ### Instructions
 - Continue working on the Project `RPG`
 - Change the field `name` to be a Property named `Name` which only has a `get`, but no `set`
   - You can still assign the value in the constructor, but nowhere else anymore
+
+Need Help? [Here's The Slides!](slides/README.md#8-properties)
 
 ## 8.2 - Properties:
 ### Goal
@@ -141,6 +144,8 @@ test.Health = 500;
   - And `false` in any other case
 - In the Game Loop, use this property instead of reading the Health!
 - You can Remove the `Health` Property's `get` now!
+
+Need Help? [Here's The Slides!](slides/README.md#8-properties)
 
 ## 8.3 - Properties:
 ### Goal
@@ -173,6 +178,8 @@ Output:Unit #3: Leet - 0/1337 Health
   - Not ask anymore, what we want Leet's Health to be
   - But instead asks, how much damage we want to deal
   - And then calls the `Damage`-Method with that value
+
+Need Help? [Here's The Slides!](slides/README.md#8-properties)
 
 ## Done?
 Return to the [Overview](../../../#3-inheritance)

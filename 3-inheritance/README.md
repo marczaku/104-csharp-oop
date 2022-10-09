@@ -241,7 +241,7 @@ Output:Game Over.
 - Implement real Attacks!
 ### Instructions
 - Continue working on the Project `RPG`
-First, let's make sure that every unit has an `Power`-Property, so we know, how much damage they can deal:
+First, let's make sure that every unit has a `Power`-Property, so we know, how much damage they can deal:
 - Add a read-only (only `get;`) Property `Power` of type `int` to the `Unit`-class.
 - Require a new parameter in the `Unit`'s constructor: `power` of type `int`
   - Assign the `power`-argument's value to the `Unit`s `Power`-Property

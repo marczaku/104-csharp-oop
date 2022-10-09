@@ -248,28 +248,34 @@ These modifiers are not so important at this point and are intentionally left ou
 
 ## 8. Properties
 
+Properties are here to replace Getter and Setter Methods in C#.\
+Let's look at an example:
 
-Properties are used in `C#` to Replace Getter and Setter Method.\
-They are basically just syntactic sugar!\
-You could say, that they are Methods, which look like Fields.
-- With Methods, you can use Code for Validation, Processing, etc.
-- You can define a getter and a setter separately
+### Problem: Fields allow for no control
 
-So, to compare:\
-This is a field:
 ```cs
 public class Unit {
    public int health;
 }
-
-Unit unit = new Unit();
-unit.health = 5;
-// I can assign any value to it and it will have that value.
-unit.health = -100;
-Console.WriteLine(unit.health); // Output: -100
 ```
 
-This is Getter and Setter Methods:
+I can assign any value to the field `health` now. The class has no control over it:
+
+```cs
+Unit unit = new Unit();
+unit.health = 5;
+unit.health = -100;
+Console.WriteLine(unit.health); // -100
+```
+
+Output:
+```
+-100
+```
+
+### Solution: Getter and Setter Methods
+
+This solves the problem using Getter and Setter methods:
 ```cs
 public class Unit {
    private int health;
@@ -280,17 +286,50 @@ public class Unit {
       return health;
    }
 }
-
-Unit unit = new Unit();
-unit.SetHealth(5);
-// Now, when I assign invalid values, they can be fixed:
-unit.SetHealth(-100);
-Console.WriteLine(unit.GetHealth()); // Output: 0
-// I cannot assign `health` directly:
-// unit.health = -100;
 ```
 
-And now, using Properties:
+Now, I can not assign values to the field directly anymore:
+
+```cs
+Unit unit = new Unit();
+// unit.health = -100; ERROR, this is private
+```
+
+Instead, I need to use `SetHealth` and `GetHealth`.
+- `SetHealth` corrects the input and ensures that `health` can never fall under 0
+
+```cs
+Unit unit = new Unit();
+unit.SetHealth(5);
+unit.SetHealth(-100);
+Console.WriteLine(unit.GetHealth()); // 0
+```
+
+Output:
+```
+0
+```
+
+### Problem: Readability
+
+The problem is, that the Code can become quite unreadable:
+
+Before:
+
+```cs
+Unit unit = new Unit();
+unit.health += 20;
+```
+
+Now:
+
+```cs
+Unit unit = new Unit();
+unit.SetHealth(unit.GetHealth() + 20);
+```
+
+### Solution: Using Properties
+
 ```cs
 public class Unit {
    private int health;
@@ -303,29 +342,71 @@ public class Unit {
       }
    }
 }
+```
 
+We still can not access the private field `health`:
+
+```cs
+Unit unit = new Unit();
+// unit.health = -100; ERROR, this is private
+```
+
+But we can use the `get` and `set` methods of the `public` `Health` Property:
+
+```cs
 Unit unit = new Unit();
 unit.Health = 5;
-// Now, when I assign invalid values, they can be fixed:
 unit.Health = -100;
 Console.WriteLine(unit.Health); // Output: 0
-// I cannot assign `health` directly:
-// unit.health = -100;
 ```
 
-Do you see, how one part behaves like Methods:
-```cs
-set {
-   health = Math.Max(0, value);
-}
-```
+Whenever you assign to the Unit's Health Property:
 
-While the other behaves like Fields:
 ```cs
 unit.Health = -100;
-Console.WriteLine(unit.Health);
 ```
 
+The Unit's `set` Method gets invoked, passing the value of the right side of the assignment (`-100`) to the Parameter named `value`:
+
+```cs
+   public int Health {
+      set {
+         health = Math.Max(0, value);
+      }
+      // ...
+```
+
+Actually, this:
+
+```cs
+   public int Health {
+      set {
+         health = Math.Max(0, value);
+      }
+   }
+```
+
+Gets compiled to this:
+
+```cs
+   public void SetHealth(int value){
+     health = Math.Max(0, value);
+   }
+```
+
+But the advantage is that Properties can be used like fields, so we can write this:
+
+```cs
+unit.Health += 20;
+```
+
+Instead of:
+
+```cs
+unit.SetHealth(unit.GetHealth() + 20);
+```
+
+### Definition
 
 Syntax:
 ```cs
@@ -338,132 +419,273 @@ public PropertyType PropertyName {
      }
 }
 ```
-                
-```cs
-public class Circle {
-  // a private field, so it's inaccessible
-  int radius;
-  
-  // a traditional Setter-Method
-  public void SetRadius(int value) {
-    this.radius = value;
-  }
-  // a traditional Getter-method
-  public int GetRadius() {
-    return this.radius;
-  }
-  
-  // a property with the same functionality
-  public int Radius {
-    get {
-      // The getter method has to return to an int
-      return this.radius;
-    }
-    set {
-      // The setter method gets a local int "value"
-      this.radius = value;
-    }
-  }
-}
-```
 
-- Since Properties act as two separe methods…
-- You may have only a Getter, or only a Setter
-- Or your getter may be public
-- And your setter private at the same time
-- There‘s also a nice expression-body syntax:
-  -  get => `referenceToValue;`
-  -  set => `referenceToValue = value;`
+### Samples
+
+Here, the Circle Class uses the `Radius` Property in order to update both the `radius` and the `area` of the Circle whenever a new value is assigned to the `Radius` Property:
 
 ```cs
 public class Circle {
-   int radius;
-   
-   // properties may have only a getter
-   public int Radius {
-      get {
-         return this.radius;
-      }
-   }
-   
-   // or only a setter
-   public int Radius1 {
-      set {
-         this.radius = value;
-     }
-   }
-   
-   // or different access modifiers:
-   public int Radius2 {
-     get {
-       return.this.radius;
-     }
-     private set {
-       this.radius = value;
-     }
-   }
+  private float radius;
+  private float area;
 
-   // and you can use expression-bodies:
-   public int Radius3 {
-     get => this.radius;
-     set => this.radius = value;
-  }
-}
-```
-
-
-- Want to save even more space?
-- Use Auto-Properties:
-  - They have a hidden field for the value
-  - It‘s popular to name a backing field, that‘s supposed to only be changed through a Property with Underscore: _variableName 
-  - It signalizes, that it should not be accessed directly; But it does not prevent it (within the class)
-
-```cs
-public class Circle {
-  // This is an auto-property
-  // it stores the value in a hidden field that you cannot access in any other way
-  
-  public int Radius {
-    get;
-    private set;
-  }
-}
-// the above class is the same as:
-public class AnotherCircle {
-  int _radius;
-  public int Radius {
-    get {
-      return this._radius;
+  public float Radius {
+    get{
+      return radius;
     }
-    private set {
-      this._radius = value;
+    set{
+      radius = value;
+      area = value * value * MathF.PI;
+    }
+  }
+
+  public float Area {
+    get{
+      return area;
     }
   }
 }
 ```
 
-- Also Useful: Read-Only Properties.
-- They only have a `get`
-- But they can be assigned within the Constructor
+```cs
+Circle circle = new Circle();
+circle.Radius = 12;
+Console.WriteLine(circle.Radius); // 12
+Console.WriteLine(circle.Area); // 152.38...
+```
+
+Output:
+```
+12
+152.38
+```
+
+### Separate Getter and Setter
+
+You might have spotted it already in above example, but:
 
 ```cs
-public class Person {
-  // Read-Only Property
-  public string Name {
-    get;
+  public float Area {
+    get{
+      return area;
+    }
   }
-  
-  public Person(string name) {
-    // we can still assign to the name within the constructor:
-    this.Name = name;
-  }
-  
-  public void ChangeName(string newName) {
-    // But this is not possible anymore outside the constructor:
-    // this.Name = name;
+```
+
+The `Area` Property has no `set`-Accessor at all. This is possible with Properties.
+- You can not use `Area` on the left side of an assignment!
+- But you can use it on the right side of an assignment
+- And to pass the value to Methods
+
+```cs
+Circle circle = new Circle();
+// circle.Area = 12; // ERROR: Area has no set Accessor
+Console.WriteLine(circle.Area);
+float area = circle.Area;
+```
+
+You can also have a Property which only has a `set`-Accessor:
+
+```cs
+public class Login{
+  private string password;
+  public string Password{
+    set{
+      password = value;
+    }
   }
 }
 ```
 
----
+In above example, I can assign a value to `Password`:
 
+```cs
+Login login = new Login();
+login.Password = "12345";
+```
+
+But I can not read the value:
+
+```cs
+//Console.WriteLine(login.Password); // ERROR: Password has no get Accessor
+```
+
+### Separate Getter and Setter Accessibility
+
+Either of your getter and setter can also have less accessibility than the Property:
+
+```cs
+public class Unit{
+  private int health;
+  public int Health{
+    get{
+      return health;
+    }
+    private set{
+      health = Math.Max(0, value);
+    }
+  }
+}
+```
+
+`Health` is a `public` Property and has a `get`-Accessor, so we can access it outside the class:
+
+```cs
+Unit unit = new Unit();
+Console.WriteLine(unit.Health);
+```
+
+`Health` has a `set`-Accessor, but it is private. Which means that we cannot access it:
+
+```cs
+//unit.Health = 12; // ERROR: set is not accessible
+```
+
+### Expression Body Syntax
+
+If either your getter or setter fit into one line of code, you can also use the shorter syntax:
+
+Before:
+
+```cs
+public int Health{
+  get{
+    return health;
+  }
+  set{
+    health = Math.Max(0, value);
+  }
+}
+```
+
+After:
+
+```cs
+public int Health{
+  get => health;
+  set => health = Math.Max(0, value);
+}
+```
+
+### Expression Bodied Property
+
+And if your Property only has a getter, it can even be further shortened:
+
+```cs
+public class Circle{
+  float radius;
+  public float Area{
+    get{
+      return radius * radius * MathF.PI;
+    }
+  }
+}
+```
+
+Can be reduced to:
+
+```cs
+public class Circle{
+  float radius;
+  public float Area => radius * radius * MathF.PI;
+}
+```
+
+Isn't that cool?
+
+### Auto-Implemented Properties
+
+If your Properties only forward the value of a field, you can have them be auto-implemented:
+
+```cs
+public class Circle{
+  private float radius;
+  public float Radius{
+    get{
+      return radius;
+    }
+    set{
+      radius = value;
+    }
+  }
+}
+```
+
+Can be reduced to:
+
+```cs
+public class Circle{
+  public float Radius{get;set;}
+}
+```
+
+And if you have different access modifiers, that's possible, too:
+
+```cs
+public class Player{
+  private float health;
+  public float Health{
+    get{
+      return health;
+    }
+    private set{
+      health = value;
+    }
+  }
+}
+```
+
+Can be reduced to:
+
+```cs
+public class Player{
+  public float Health{ get;private set; }
+}
+```
+
+### Read-Only Property
+
+You can even have Properties that are Read-Only:
+
+```cs
+public class Player{
+  public string Id {get;}
+}
+```
+
+```cs
+Player player = new Player();
+// player.Id = "Player1"; // ERROR: Property `Id` has no set-Accessor.
+Console.WriteLine(player.Id); // empty output
+```
+
+Output:
+```
+
+```
+
+What's the use of a value that can never be assigned to? Won't it always have its default value (`null`, `0`, `false`)?
+
+Actually, you can assign to it! But only in the class's constructor:
+
+```cs
+public class Player{
+  public string Id {get;}
+
+  public Player(string id){
+    Id = id;
+  }
+}
+
+That way, you can (and need to) pass the Id to the `Player` class and can never ever change it again:
+
+```cs
+Player player = new Player("Player1");
+// player.Id = "Player2"; // ERROR: Property `Id` has no set-Accessor.
+Console.WriteLine(player.Id); // Player1
+```
+
+Output:
+```
+Player1
+```
