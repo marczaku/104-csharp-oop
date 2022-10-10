@@ -1005,43 +1005,80 @@ public class Player {
 }
 ```
 
-- **Why Composition?**
-- Sometimes, Inheritance sounds weird:
+### Why Composition?
+
+Sometimes, Inheritance sounds weird:
 - A _Weapon_ **IS NOT** a _Button_, just because it is displayed like one
-- Therefore, it should not inherit from _Button_, but instead **have** one
-- Classes can only inherit from one class at a time
-- A Bird **is** an Animal (AI), A Plane **is** a Vehicle (Can be entered)
-- Both can Fly, though, how to share the code, if not through inheritance?
-- They both **have** Wings, for example. 
-- ***General guide:*** "Composition over Inheritance"
-- Modern Engines have mastered this with Entity-Component-Frameworks
-- Entities (GameObject) **HAVE** Components, that makes them very modular!
-     
+  - Therefore, it should not inherit from _Button_, but instead **have** one
+
+
+We want to have a weapon visible as a button.
+
+A class for a button in the UI:
+
 ```cs
-// a class for a button in the UI
 public class Button { }
-// we want to have a weapon visible as a button
-// Weird way: a weapon inheriting ("Being") a button
-public class Weapon1 : Button{}
-// better way: a weapon HAS a button
-public class Weapon2 {
+```
+
+Weird way: a weapon inheriting ("Being") a button
+
+```cs
+public class Weapon : Button{}
+```
+
+Better way: a weapon HAS a button
+
+```cs
+public class Weapon {
    public Button Button { get; }
 }
+```
 
+Classes can only inherit from one class at a time
+- A Bird **is** an Animal (AI), A Plane **is** a Vehicle (Can be entered)
+- Both can Fly, though, how to share the code, if not through inheritance?
+- They both **have** Wings, for example.
+
+```cs
 public class Vehicle{}
 public class Animal{}
 public class FlyingObject{}
-// a plane cannot inherit frin ("BE") two classes:
-public class Plane1 : Vehicle, FlyingObject{ }
+```
+
+A plane cannot inherit from ("BE") two classes:
+
+```cs
+public class Plane : Vehicle, FlyingObject{ }
+```
+
+But if we had a class for Wings:
+
+```cs
 public class Wing{}
-// but it could HAVE wings for flying
+```
+
+Then `Plane` could use `Wings` in order to fly:
+
+```cs
 public class Plane2 : Vehicle {
    public Wing[] Wings { get; }
 }
-// a bird could HAVE wings as well:
+```
+
+Advantage: A `Bird` could also use `Wings` to fly:
+
+```cs
 public class Bird : Animal{
    public Wing[] Wings { get; }
 }
 ```
+
+Even though these classes don't inherit from each other and they don't have a common parent class.
+
+### Composition OVER Inheritance
+
+***General guide:*** "Composition over Inheritance"
+- Modern Engines have mastered this with Entity-Component-Frameworks
+- Entities (GameObject) **HAVE** Components, that makes them very modular!
 
 ---
