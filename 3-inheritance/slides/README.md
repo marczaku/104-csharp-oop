@@ -968,44 +968,64 @@ public class Mouse : Animal { }
 
 ## 12. Composition
 
+### Reminder: Inheritance
 
-- Another solution to inheritance?
-- Composition!
-- Classes can have classes as Fields or Properties!
-- Inheritance = **is** a
-- Composition = **has** a
-- A mouse **is** an animal
-- A player **has** a weapon
-     
+An abstract base class
 ```cs
-// an abstract base class
 public abstract class Animal { }
-// example of inheritance: 
-// the Dog inherits from Animal
+```
+
+Example of inheritance: the Dog inherits from Animal
+
+```cs
 public class Dog : Animal { }
-// a weapon class
+```
+
+
+### What is Composition?
+
+Composition is when one class references another class as a Member.
+
+Here is a `Weapon` class which will later contain all the logic for attacking etc.:
+
+```cs
 public class Weapon {
    public bool IsBroken { get; }
 }
-// a Player class
+```
+
+Here, the class `Player` uses Composition in order to contain and use a `Weapon`:
+
+```cs
 public class Player {
-   //example of composition:
-   // the player "has a" weapon
+
    public Weapon Weapon { get; private set; }
+
    public void EquipWeapon(Weapon weapon) {
       if (!weapon.IsBroken)
          this.Weapon = weapon;
    }
+
    public void Attack() {
-   if(this.weapon == null) {
-      Console.WriteLine("No weapon!");
-   } else {
-       Console.WriteLine("Attack");
-   }
+    if(this.weapon == null) {
+        Console.WriteLine("No weapon!");
+    } else {
+        Console.WriteLine("Attack");
+    }
 }
 ```
 
+### Definition
+
+Composition is when Classes contain classes as Fields or Properties.
+- Inheritance = **is** a
+- Composition = **has** a
+- A mouse **is** an animal
+- A player **has** a weapon
+
 ### Why Composition?
+
+#### Inheritance is not appropriate
 
 Sometimes, Inheritance sounds weird:
 - A _Weapon_ **IS NOT** a _Button_, just because it is displayed like one
@@ -1033,6 +1053,8 @@ public class Weapon {
    public Button Button { get; }
 }
 ```
+
+#### Inheritance has limitations
 
 Classes can only inherit from one class at a time
 - A Bird **is** an Animal (AI), A Plane **is** a Vehicle (Can be entered)
