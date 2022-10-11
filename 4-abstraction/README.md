@@ -1,20 +1,123 @@
 # Exercises 4 - Abstraction
 
-For all of these exercises, it is recommended to:
-- Open GitHub Desktop Application
-- Select your Assignment Repository (named `gp21-21-1004-csharp-oop-rpg-[yourusername]`)
-- Then, from the Menu Bar in GitHub Desktop, select `Repository` > `Open in Terminal` (or `Open in Command Prompt`)
-- Switch to the `projects`-directory using `cd projects`
-- Create a Project using `dotnet new console -o ProjectName` (replace the Project Name with the name given by each Exercise)
-- Add a `.gitignore` to the folder of the newly created Project:
-  - First, navigate to the new folder: `cd [ProjectName]`
-  - Then, use `dotnet new gitignore`
-  - Do NOT commit any files in `/bin/` or `/obj/`, please!
-- Open the Project in the IDE of your choice. Remember: Open the `.csproj` file!!
-- Then follow the instructions of the exercise
+## 11 - Abstraction:
+### Goal
+- Make `Unit` to be a base-class, which we cannot instantiate by itself anymore.
+### Instructions
+- Continue working on the Project `RPG`
+- Make the `Unit`-class `abstract` by using the `abstract`-keyword before the `class`-keyword
+- Adjust the `SpawnNewUnit`-Method, so it can not spawn `Unit` anymore, only `Necromancer`
 
-## 16 - Class Casting:
-[Read the Slides on Class Casting](../slides/003.5-classes-3.md#1-class-casting)
+Need Help? [Here's The Slides!](slides/README.md#11-abstraction)
+
+## 11.1 - Abstraction:
+### Goal
+- Implement more enemies: `Skeleton`, `Hedgehog`, `Bomb`
+### Instructions
+- Continue working on the Project `RPG`
+- The `Skeleton` inherits from `Unit`, has 250 Health, the name `"Skeleton"`
+- The `Hedgehog` inherits from `Unit`, has 200 Health, the name `Hedgehog` and this Special ability:
+  - When hit, he goes into Defense Mode for 2 Rounds
+    - Print `Unit #3: Hedgehog went into Defense Mode!`
+  - After 2 rounds, he stops being in Defense Mode
+    - Print `Unit #3: Hedgehog stopped being into Defense Mode!`
+  - While in Defense Mode, the `Hedgehog` does not take any Damage from the Player
+    - Print `Unit #3: Hedgehog was hit while in Defense Mode!`
+- The `Bomb` inherits from `Unit`, has 500 Health, the name `Bomb` and this Special Ability:
+  - It explodes after 5 Rounds
+  - When exploding, the `Bomb`'s `Health` is set to 0
+    - Print `Unit #3: Bomb has exploded!`
+- Add these three new monsters to your `SpawnNewUnit`-Method
+  - extend the Random Number to give results between 0 and 2
+  - And map each of these numbers to a `Unit` that is then created
+
+Need Help? [Here's The Slides!](slides/README.md#11-abstraction)
+
+## 11.2 - Abstraction:
+### Goal
+- Implement the `Hero` as a class, so the Player can play (and die) himself, too!
+### Instructions
+- Continue working on the Project `RPG`
+- The `Hero` inherits from `Unit`, has 1000 Health and the name `Hero`
+- Create a `Hero` when the Game Starts, before the first Monster is spawned.
+- The `Hero` takes 89 Damage each round.
+- When the `Hero` `IsDead`, the Game is Over.
+  - Print `Game Over. You Lose.`
+- If the three monsters were killed before the `Hero` `IsDead`
+  - Print `Game Over. You Win.`
+
+Need Help? [Here's The Slides!](slides/README.md#11-abstraction)
+
+## 11.3 - Abstraction:
+### Goal
+- Implement real Attacks!
+### Instructions
+- Continue working on the Project `RPG`
+First, let's make sure that every unit has a `Power`-Property, so we know, how much damage they can deal:
+- Add a read-only (only `get;`) Property `Power` of type `int` to the `Unit`-class.
+- Require a new parameter in the `Unit`'s constructor: `power` of type `int`
+  - Assign the `power`-argument's value to the `Unit`s `Power`-Property
+Now, let's make sure, that this `power`-argument is provided with all `Unit`s:
+- The `Hero` has 66 `power`
+- The `Skeleton` has 46 `power`
+- The `Necromancer` has 32 `power`
+- The `Bomb` has 0 `power`
+- The `Hedgehog` has 27 `power`
+Now, let's add an `Attack`-Method to the `Unit`, which allows a `Unit` to Attack any other `Unit`
+- Add a new Method with no return type to the `Unit` class named `Attack`
+  - `Attack` takes one parameter named `target` of type `Unit` - this will be the `Unit` that we want to attack.
+  - Within the `Attack`-Method, we should call `TakeDamage` on the `target`-`Unit` and pass our own `Power` as an argument.
+Now, let's first Remove the Part in our Game Loop, where we ask the Player, how much Damage he wants to deal and replace it with the following Code-Sample:
+```cs
+Console.WriteLine("The fight continues... (Press any key.)");
+Console.ReadKey();
+hero.Attack(monster);
+monster.Attack(hero);
+```
+
+Need Help? [Here's The Slides!](slides/README.md#11-abstraction)
+
+## 12 - Composition:
+### Goal
+- Remove the `Power`-Property from the `Unit`-Class and replace it with a `Weapon`-Property.
+### Instructions
+- Continue working on the Project `RPG`
+- Introduce a new `abstract` class `Weapon`
+  - Weapon has a read-only Propery named `Power` of type `int`
+  - And a Constructor that requires a Parameter named `power` of type `int`, which is then assigned to the `Power`-Property
+- Introduce the following Weapons:
+  - `TrainingWeapon` with 66 `power`
+  - `BoneSword` with 46 `power`
+  - `CursedStaff` with 32 `power`
+  - `Unarmed` with 0 `power`
+  - `Spike` with 27 `power`
+- Change the `Unit`-constructor to not require `power` of type `int` anymore
+- But instead require a `weapon` of type `Weapon`
+- Also, remove the `Power`-Property of type `int` from the `Unit`
+- And add a `Weapon`-Property of type `Weapon` to the `Unit` instead
+- Assign the `weapon` passed to the `Unit`-constructor to the `Unit`'s `Weapon`-Property
+- Assign the following `Weapon`s in the different classes' constructors:
+  - `Hero`: `new TrainingWeapon()`
+  - `Skeleton`: `new BoneSword()`
+  - `Necromancer`: `new CursedStaff()`
+  - `Bomb`: `new Unarmed()`
+  - `Hedgehog`: `new Spike()`
+- Modify the `Attack`-Method, so it does not pass `Power` into the `TakeDamage`-Method, but `Weapon.Power` instead.
+- Add a new Message to Attacks that looks like this:
+`Unit #3: Hero uses TrainingWeapon to attack Unit #4: Necromancer for 66 Damage.`
+
+Need Help? [Here's The Slides!](slides/README.md#12-composition)
+
+## 12.1 - Composition (BONUS):
+### Goal
+- Implement the `Bomb`'s Explosion Feature fully: When it explodes after 5 rounds, it deals 500 Damage to the Player.
+### Instructions
+- There is no instructions here, I am looking forward to see, what solutions you came up with :)
+
+Need Help? [Here's The Slides!](slides/README.md#12-composition)
+
+
+## 13 - Class Casting:
 ### Goal
 - Have our `Hero` deal Bonus Damage against certain Units.
 ### Instructions
@@ -27,7 +130,9 @@ For all of these exercises, it is recommended to:
     - If it is, then Deal 10 Damage extra.
     - Print `"The Hero deals 10 extra Damage against the Skeleton's weak Bones!"`
 
-## 16.1 - Class Casting:
+Need Help? [Here's The Slides!](slides/README.md#13-class-casting)
+
+## 13.1 - Class Casting:
 ### Goal
 - Introduce a new `Unit` called `Ghost` which scares our `Hero` to his bones 👻
 ### Instructions
@@ -40,7 +145,9 @@ For all of these exercises, it is recommended to:
     - If it is, then do a random-roll:
     - With a 55% Chance, the `Hero` is scared and will not attack this round.
     - Write `"The Hero is too scared to attack!"`
-    - Make sure that the `Hero` does not scared by other `Unit`s!
+    - Make sure that the `Hero` does not get scared by other `Unit`s!
+
+Need Help? [Here's The Slides!](slides/README.md#13-class-casting)
 
 ## 16.2 - Class Casting:
 ### Goal
@@ -55,12 +162,15 @@ For all of these exercises, it is recommended to:
   - What Danger exists right now?
     - ||think about what might happen, if two Hedgehogs in Defense Mode fight each other.||
 
-## 17 - Interfaces:
-[Read the Slides on Class Casting](../slides/003.5-classes-3.md#2-interfaces)
+Need Help? [Here's The Slides!](slides/README.md#13-class-casting)
+
+## 14 - Interfaces:
+
 ### Goal
 - Create a System in which `Weapon`s can be equipped and unequipped.
 - `IWeapon` is an `interface` for classes that can be Equipped
 - `IHand` is an `interface` for classes that can equip items
+
 ### Instructions
 - Create an `interface` named `IWeapon`.
   - it has a `Property` named `EquippedTo` of type `IHand` with only a getter: `{get;}` 
@@ -87,6 +197,7 @@ For all of these exercises, it is recommended to:
 - Now, let's remove the `Weapon`-Property from the `Unit`
 - And in the `Unit`'s Constructor, call `EquipTo` on the `weapon` passed as a constructor argument, and pass `this` as an argument to the Method.
 
+Need Help? [Here's The Slides!](slides/README.md#14-interfaces)
 
-
-Looking forward to see, whether you come this far! :)
+## Done?
+Return to the [Overview](../../../#5-game-on)

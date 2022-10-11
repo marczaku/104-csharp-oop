@@ -1,6 +1,229 @@
 # Slides 4 - Abstraction
 
-## 1. Class Casting
+## 11. Abstraction
+
+- Sometimes, you want to provide a common base class
+- But that base class does not serve any purpose on its own
+- You can mark the class as abstract
+- This disables instantiation of the class itself using the new keyword
+- Even, if there is a constructor
+
+```cs
+// if you define a class to be abstract
+public abstract class Animal {
+  string name;
+  public Animal(string name) {
+    this.name = name;
+  }
+  
+  public virtual string FavoriteFood => "<AnimalFood>"
+    
+  public virtual void MakeSound() {
+    Console.WriteLine("<AnimalSound>");
+  }
+}
+
+// another class can still inherit from that class
+public class Dog : Animal {
+  public override string FavoriteFood => "Bones";
+  public override void MakeSound() {
+    Console.WriteLine("Woof!");
+  }
+
+  public Dog(string name) : base(name) {
+  }
+}
+```
+```cs
+// ERROR: cannot create an instance of the abstract class "Animal"
+Animal animal = new Animal("Ape");
+// this is fine, dog is not an abstract class
+Dog dog = new Dog("Bello");
+// this is also fine, dog is not an abstract class
+Animal animal2 = new D0g("Tina");
+```
+
+  
+- **Abstract classes can now contain:**
+  - Abstract Properties
+  - Abstract Methods
+  - (but no abstract fields)
+- If the inheriting class is not abstract, it HAS TO implement abstract members
+- You implement abstract members by overriding them
+- If the inheriting class is abstract, it MAY implement abstract members
+- That‘s a good way of ensuring, that every Animal implements a MakeSound-Method of their own
+And that there is no „non-sense“ MakeSound-Method in the base-class "<AnimalSound>"
+     
+```cs
+// if you define a class to be abstract, then...
+public abstract class Animal {
+  // you can also define properties to be abstract
+  public abstract string FavoriteFood { get; }
+  // and also methods can be abstract
+  public abstract void MakeSound();
+  // (fields can not be abstract, though)
+  public abstract string name;
+}
+// a class inheriting an abstract class...
+public class Dog : Animal {
+  // needs to override all abstract properties
+  public override string FavoriteFood => "Bones";
+  public void GuardHouse() { }
+  // and all abstract methods
+  public override void MakeSound() {
+    Console.WriteLine("Woof!");
+  }
+public class Cat : Animal {
+  public override string FavoriteFood => "Mice";
+  public void HuntMouse() { }
+  public override void MakeSound() {
+    Console.WriteLine("Meow!");
+  }
+}
+// ERROR: abstract inherited Members "FavoriteFood" and "MakeSound" not implemented
+public class Mouse : Animal { }
+  ```
+
+---
+
+## 12. Composition
+
+### Reminder: Inheritance
+
+An abstract base class
+```cs
+public abstract class Animal { }
+```
+
+Example of inheritance: the Dog inherits from Animal
+
+```cs
+public class Dog : Animal { }
+```
+
+
+### What is Composition?
+
+Composition is when one class references another class as a Member.
+
+Here is a `Weapon` class which will later contain all the logic for attacking etc.:
+
+```cs
+public class Weapon {
+   public bool IsBroken { get; }
+}
+```
+
+Here, the class `Player` uses Composition in order to contain and use a `Weapon`:
+
+```cs
+public class Player {
+
+   public Weapon Weapon { get; private set; }
+
+   public void EquipWeapon(Weapon weapon) {
+      if (!weapon.IsBroken)
+         this.Weapon = weapon;
+   }
+
+   public void Attack() {
+    if(this.weapon == null) {
+        Console.WriteLine("No weapon!");
+    } else {
+        Console.WriteLine("Attack");
+    }
+}
+```
+
+### Definition
+
+Composition is when Classes contain classes as Fields or Properties.
+- Inheritance = **is** a
+- Composition = **has** a
+- A mouse **is** an animal
+- A player **has** a weapon
+
+### Why Composition?
+
+#### Inheritance is not appropriate
+
+Sometimes, Inheritance sounds weird:
+- A _Weapon_ **IS NOT** a _Button_, just because it is displayed like one
+  - Therefore, it should not inherit from _Button_, but instead **have** one
+
+
+We want to have a weapon visible as a button.
+
+A class for a button in the UI:
+
+```cs
+public class Button { }
+```
+
+Weird way: a weapon inheriting ("Being") a button
+
+```cs
+public class Weapon : Button{}
+```
+
+Better way: a weapon HAS a button
+
+```cs
+public class Weapon {
+   public Button Button { get; }
+}
+```
+
+#### Inheritance has limitations
+
+Classes can only inherit from one class at a time
+- A Bird **is** an Animal (AI), A Plane **is** a Vehicle (Can be entered)
+- Both can Fly, though, how to share the code, if not through inheritance?
+- They both **have** Wings, for example.
+
+```cs
+public class Vehicle{}
+public class Animal{}
+public class FlyingObject{}
+```
+
+A plane cannot inherit from ("BE") two classes:
+
+```cs
+public class Plane : Vehicle, FlyingObject{ }
+```
+
+But if we had a class for Wings:
+
+```cs
+public class Wing{}
+```
+
+Then `Plane` could use `Wings` in order to fly:
+
+```cs
+public class Plane2 : Vehicle {
+   public Wing[] Wings { get; }
+}
+```
+
+Advantage: A `Bird` could also use `Wings` to fly:
+
+```cs
+public class Bird : Animal{
+   public Wing[] Wings { get; }
+}
+```
+
+Even though these classes don't inherit from each other and they don't have a common parent class.
+
+### Composition OVER Inheritance
+
+***General guide:*** "Composition over Inheritance"
+- Modern Engines have mastered this with Entity-Component-Frameworks
+- Entities (GameObject) **HAVE** Components, that makes them very modular!
+
+## 13. Class Casting
 Class Casting describes the process in Polymorphism of changing the Shape of a class to either its base or its parent:
 
 ```cs
@@ -126,7 +349,7 @@ Error: Cannot convert `Animal` to `Teapot` via built-in conversion.
 
 ---
 
-## 2. Interfaces
+## 14. Interfaces
 
 Interfaces are used in C# to make sure that we can communicate with classes whose exact implementation we don't know, yet.\
 By defining an interface that we want to interact with and then allowing any class that implements that interface to interact with us.
