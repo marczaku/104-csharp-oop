@@ -76,7 +76,7 @@ Output:Unit #3: Leet - 0/1337 Health
 ### Instructions
 - Continue working on the Project `RPG`
 - Replace the Method `SetHealth` with a public Property named `Health` of type `int`
-  - The same logic that happened in `SetHealth` before, should now happen in that propperty's `set`
+  - The same logic that happened in `SetHealth` before, should now happen in that Property's `set`
   - Add a `get` to the Property, which returns the current value of the `health`-field
 - Change the Game-Loop:
   - Don't ask the user 3 times for Leet's new Health
@@ -88,7 +88,7 @@ Need Help? [Here's The Slides!](slides/README.md#8-properties)
 ### Goal
 - Right now, you can change our Unit's `name` at any time.
 - Try it: Try adding: `Unit test = new Unit("Abc", 100); test.name = "Def";`
-- This is not behaviour that we want. Let's change that.
+- This is not behavior that we want. Let's change that.
 
 ### Sample
 Adding this code should not compile anymore:
@@ -142,8 +142,8 @@ test.Health = 500;
 - Add a property named `IsAlive` of type `bool` to the `Unit` Class
   - It should have a `get` that returns `true`, if `health` is greater than zero
   - And `false` in any other case
-- In the Game Loop, use this property instead of reading the Health!
-- You can Remove the `Health` Property's `get` now!
+- In the Game Loop, use this property instead of comparing `Health <= 0` or `Health > 0`!
+- You can make the `Health` Property's `get` `protected` now!
 
 Need Help? [Here's The Slides!](slides/README.md#8-properties)
 
@@ -169,7 +169,7 @@ Output:Unit #3: Leet - 0/1337 Health
 
 ### Instructions
 - Continue working on the Project `RPG`
-- Make the `set` on `Health` private, so no other class can adjust the value directly anymore
+- If not done already, make the `set` on `Health` `protected`, so no other class can adjust the value directly anymore
 - Introduce a `public` method named `Damage`
   - It returns nothing
   - It takes a parameter named `value` of type `int`

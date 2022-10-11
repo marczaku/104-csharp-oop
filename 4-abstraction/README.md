@@ -149,7 +149,7 @@ Need Help? [Here's The Slides!](slides/README.md#13-class-casting)
 
 Need Help? [Here's The Slides!](slides/README.md#13-class-casting)
 
-## 16.2 - Class Casting:
+## 13.2 - Class Casting:
 ### Goal
 - We will refactor our `TakeDamage`-Method to allow our `Hedgehog`'s `Spikes` to deal damage while he's in defense Mode.
 ### Instructions
@@ -172,14 +172,26 @@ Need Help? [Here's The Slides!](slides/README.md#13-class-casting)
 - `IHand` is an `interface` for classes that can equip items
 
 ### Instructions
+
+#### Define IWeapon
+
 - Create an `interface` named `IWeapon`.
   - it has a `Property` named `EquippedTo` of type `IHand` with only a getter: `{get;}` 
   - it has a `Method` named `EquipTo` with one parameter of type `IHand` named `Hand`.
   - it has a `Method` named `UnEquip` with no parameters.
+
+#### Define IHand
+
 - Create an `interface` named `IHand`.
   - it has a `Property` named `Weapon` of type `IWeapon` with a getter and setter: `{get; set;}`
+
+#### Implement IHand
+
 - Have the `Unit` implement `IHand`
   - You just need to add the `Weapon`-Property with getter and setter
+
+#### Implement IWeapon
+
 - Have the `Weapon` implement `IWeapon`
   - You need to add the `EquippedTo`-Property with a getter and private setter
   - Implement the `UnEquip`-Method:
@@ -194,6 +206,9 @@ Need Help? [Here's The Slides!](slides/README.md#13-class-casting)
     - On the `Hand`-Parameter, set the `Weapon`-Property to `this`
     - Then, we need to save the `Hand` in our own Property:
     - Assign the `Hand`-Parameter to our own `EquippedTo`-Property
+
+#### Using Weapons
+
 - Now, let's remove the `Weapon`-Property from the `Unit`
 - And in the `Unit`'s Constructor, call `EquipTo` on the `weapon` passed as a constructor argument, and pass `this` as an argument to the Method.
 

@@ -47,8 +47,8 @@ Loops allow us to repeat the same instructions 100 times or even a million times
 
 [Let's Get Started!](4-abstraction)
 
-# 4 Game On
+# 5 Game On
 ## Goal
 Continue working on the RPG Project and implement all of the required features.
 
-[Let's Get Started!](4-game-on)
+[Let's Get Started!](5-game-on)
