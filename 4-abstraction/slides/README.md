@@ -337,7 +337,7 @@ if(animal is Dog dog) {
 
 ### Illegal Casting
 
-By the way, all of these methods of Up-Casting do not allow you to even just try to do impossible Up-Casts.\
+By the way, all of these methods of Up-Casting do not allow you to even try to do impossible Up-Casts.\
 You will not even be able to Compile / Run the following Code on your Machine:
 
 ```cs
@@ -357,7 +357,7 @@ By defining an interface that we want to interact with and then allowing any cla
 This interface here:
 ```cs
 public interface IConsumable {
-   void Consume();
+   void Consume(Hero hero);
 }
 ```
 
@@ -366,17 +366,21 @@ Therefore, without knowing, what class might implement `IConsumable` or, what `C
 
 ```cs
 public class Hero {
+   public int Health {get;set;}
+   public int Mana {get;set;}
    public void Use(IConsumable consumable) {
-      consumable.Consume();
+      consumable.Consume(this);
    }
 }
 ```
 
-What will happen will depend on the class implementing that cosumable:
+We were actually able to fully implement the `Hero` class without a single `IConsumable` existing, yet.
+
+What will happen will depend on the class implementing that consumable interface:
 ```cs
 public class HealthPotion : IConsumable {
-   public void Consume() {
-      Player.Health += 50;
+   public void Consume(Hero hero) {
+      hero.Health += 50;
    }
 }
 ```
@@ -385,8 +389,8 @@ Or maybe:
 
 ```cs
 public class ManaPotion : IConsumable {
-   public void Consume() {
-      Player.Mana += 50;
+   public void Consume(Hero hero) {
+      hero.Mana += 50;
    }
 }
 ```
@@ -396,7 +400,7 @@ public class ManaPotion : IConsumable {
 What is the difference to an abstract base class, though?
 ```cs
 public abstract class Consumable {
-   public abstract void Consume();
+   public abstract void Consume(Hero hero);
 }
 ```
 
@@ -404,7 +408,7 @@ Well not, much, actually. This is, how it would be used:
 ```cs
 public class Hero {
    public void Use(Consumable consumable) {
-      consumable.Consume();
+      consumable.Consume(this);
    }
 }
 ```
@@ -412,8 +416,8 @@ public class Hero {
 And this is, how it would be implemented:
 ```cs
 public class HealthPotion : Consumable {
-   public override void Consume() {
-      Player.Health += 50;
+   public override void Consume(Hero hero) {
+      hero.Health += 50;
    }
 }
 ```
@@ -426,17 +430,17 @@ Then why use interfaces? They have one big advantage:
 
 ```cs
 public class LuckyCharm : IEquippable, IConsumable {
-   public void Equip() {
-      Player.Luck += 5;
+   public void Equip(Hero hero) {
+      hero.Luck += 5;
    }
    
-   public void Consume() {
-      Player.Gold += 10;
+   public void Consume(Hero hero) {
+      hero.Gold += 10;
    }
 }
 ```
 
-In other words: Classes cannot inherit from multiple classes, but they can implement multiple interfaces!
+In other words: While Classes cannot inherit from multiple classes, they can implement multiple interfaces!
 
 ### Defining an Interface
 
@@ -530,7 +534,7 @@ public class Cat : Animal, IFeedable, IAdoptable, ICarriable {
 }
 ```
 
-And the poor Lion can neither be carried nor adopted (it's a biiiiig cat), but you can feed it:
+And the poor Lion can neither be carried nor adopted (it's a really big cat), but you can feed it:
 ```cs
 public class Lion : Animal, IFeedable {
    public void Feed(string food) { }
@@ -588,6 +592,7 @@ for(int i = 0; i < animals.Length; i++) {
    
    if (animal is IAdoptable adoptable) {
       adoptable.Adopt();
+      break;
    }
 }
 ```
