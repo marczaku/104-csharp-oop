@@ -224,7 +224,8 @@ Even though these classes don't inherit from each other and they don't have a co
 - Entities (GameObject) **HAVE** Components, that makes them very modular!
 
 ## 13. Class Casting
-Class Casting describes the process in Polymorphism of changing the Shape of a class to either its base or its parent:
+
+Class Casting describes the process in Polymorphism of changing the Shape of a class to either its base or its parent.
 
 ```cs
 public class Animal { 
@@ -256,16 +257,24 @@ dog.Breathe();
 dog.Bark();
 ```
 
-Then you can implicitly Down-Cast him to an Animal, without requiring any explicit code for casting:
+Then you can implicitly Down-Cast the instance to an `Animal`, without requiring any explicit code for casting:
 ```cs
 Animal animal = dog;
 animal.Breathe();
+//animal.Bark(); For Type `Animal`, no `Bark` method is known
 ```
+
+Note: Assigned to the variable `animal` is still an Object Instance of Type `Dog`. We only lost that detail!
+
+Imagine, you are observing a Pine Tree in nature. And you take a note that you've seen a Tree at Location X. The Tree that you'll find there will still be a Pine Tree, but your notes only say that there is some Tree.
+
+Without further observation of the object, nobody will expect to be able to go that position and find a Pine Tree to pick pines from.
 
 ### Up-Casting
 
-Up-Casting however, the Process of casting a base class to one of its child classes, brings a few more problems.\
+Up-Casting however, the Process of casting a parent class to one of its child classes, brings a few more problems.\
 If you need to Up-Cast from an `Animal` to a `Dog`, you need to specify it:
+
 ```cs
 Animal animal = new Dog();
 Dog dog = (Dog)animal;
@@ -274,7 +283,7 @@ dog.Bark();
 
 Why is that? Well, because you need to be quite sure, that this Animal actually is a Dog!\
 Every Dog is an Animal. But not every Animal is a Dog.\
-In fact, if you try to cast a Cat to a Dog, bad things will happen...
+In fact, if you try to cast a `Cat` to a `Dog`, bad things will happen...
 
 ```cs
 Animal animal = new Cat();
@@ -282,9 +291,11 @@ Dog dog = (Dog)animal;
 dog.Bark();
 ```
 
-Result: `Unhandled exception. System.NullReferenceException: Object reference not set to an instance of an object.`
+Result: `Unhandled exception. System.InvalidCastException: Unable to cast object of type 'Cat' to type 'Dog'.`
 
-This means, when casting, you should always make sure, that the casting was successful:
+This means, your application will crash, if the `Animal` that you're trying to cast up to inheriting type `Dog` is not a `Dog` but e.g. a `Cat`.
+
+Is there a way to avoid this?
 
 ```cs
 Animal animal = new Cat();

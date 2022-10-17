@@ -176,41 +176,49 @@ Need Help? [Here's The Slides!](slides/README.md#13-class-casting)
 #### Define IWeapon
 
 - Create an `interface` named `IWeapon`.
-  - it has a `Property` named `EquippedTo` of type `IHand` with only a getter: `{get;}` 
-  - it has a `Method` named `EquipTo` with one parameter of type `IHand` named `Hand`.
+  - it has a `Property` named `EquippedTo` of type `IHand` with only a `get`-Accessor
+  - it has a `Method` named `EquipTo` with one parameter of type `IHand` named `hand`.
   - it has a `Method` named `UnEquip` with no parameters.
 
 #### Define IHand
 
 - Create an `interface` named `IHand`.
-  - it has a `Property` named `Weapon` of type `IWeapon` with a getter and setter: `{get; set;}`
+  - it has a `Property` named `Weapon` of type `IWeapon` with a `get` and a `set` accessor
+
+#### Implement IWeapon
+
+Have the `Weapon` implement `IWeapon`
+- You need to add the `EquippedTo`-Property with a getter and private setter
+
+##### UnEquip
+
+Implement the `UnEquip`-Method:
+- First, we remove ourselves from the `Hand` that we are equipped to:
+- On our own `EquippedTo`-Property, set the `Weapon`-Property to `null`
+- Then, we set our own `Hand` to `null`, since we are not equipped anymore:
+- Set our own `EquippedTo`-Property to `null`
+
+##### Equip
+
+Implement to `EquipTo`-Method:
+  - First, if there already is a `Weapon` equipped to the `Hand`, we need to `UnEquip` it:
+  - On the `Hand`-Parameter, we need to see, if `Weapon` is not `null`. And if it is not `null`, we need to call `UnEquip` on that `IWeapon`.
+  - Then, we need to attach ourselves to the `Hand`:
+    - On the `hand`-Argument, set the `Weapon`-Property to `this`
+    - Then, we need to save the value of `hand` in our own Property:
+    - Assign the `hand`-Argument to the `Weapon`'s `EquippedTo`-Property
 
 #### Implement IHand
 
 - Have the `Unit` implement `IHand`
-  - You just need to add the `Weapon`-Property with getter and setter
-
-#### Implement IWeapon
-
-- Have the `Weapon` implement `IWeapon`
-  - You need to add the `EquippedTo`-Property with a getter and private setter
-  - Implement the `UnEquip`-Method:
-    - First, we remove ourselves from the `Hand` that we are equipped to:
-    - On our own `EquippedTo`-Property, set the `Weapon`-Property to `null`
-    - Then, we set our own `Hand` to `null`, since we are not equipped anymore:
-    - Set our own `EquippedTo`-Property to `null`
-  - Implement to `EquipTo`-Method:
-    - First, if there already is a `Weapon` equipped to the `Hand`, we need to `UnEquip` it:
-    - On the `Hand`-Parameter, we need to see, if `Weapon` is not `null`. And if it is not `null`, we need to call `UnEquip` on that `IWeapon`.
-    - Then, we need to attach ourselves to the `Hand`:
-    - On the `Hand`-Parameter, set the `Weapon`-Property to `this`
-    - Then, we need to save the `Hand` in our own Property:
-    - Assign the `Hand`-Parameter to our own `EquippedTo`-Property
+  - Now, let's remove the `Weapon`-Property of type `Weapon` from class `Unit`
+  - Also remove the assignment int the `Unit`-Constructor
+  - You just need to add the `Weapon`-Property of type `IWeapon` with getter and setter
 
 #### Using Weapons
 
-- Now, let's remove the `Weapon`-Property from the `Unit`
-- And in the `Unit`'s Constructor, call `EquipTo` on the `weapon` passed as a constructor argument, and pass `this` as an argument to the Method.
+- In the `Unit`'s Constructor, call `EquipTo` on the `weapon` argument
+  - pass the `Unit` instance itself (`this`) as an argument to the Method.
 
 Need Help? [Here's The Slides!](slides/README.md#14-interfaces)
 
