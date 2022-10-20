@@ -176,51 +176,280 @@ Need Help? [Here's The Slides!](slides/README.md#13-class-casting)
 #### Define IWeapon
 
 - Create an `interface` named `IWeapon`.
+  - it has a `Property` named `Power` of type `int` with only a `get`-Accessor.
+    - We will use it to keep track of a `Weapon`'s damage in the `Attack` method.
   - it has a `Property` named `EquippedTo` of type `IHand` with only a `get`-Accessor
-  - it has a `Method` named `EquipTo` with one parameter of type `IHand` named `hand`.
-  - it has a `Method` named `UnEquip` with no parameters.
+    - We will use it to keep track of what `Hand` the `Weapon` is currently equipped to
+  - it has a `Method` named `EquipTo` with one parameter of type `IHand` named `hand`
+    - We will use it to equip a Weapon to a new Hand
+  - it has a `Method` named `UnEquip` with no parameters
+    - We will use it to unequip a weapon from whatever Hand it is currently equipped to.
 
 #### Define IHand
 
 - Create an `interface` named `IHand`.
   - it has a `Property` named `Weapon` of type `IWeapon` with a `get` and a `set` accessor
+    - We will use it to keep track of what `Weapon` is currently equipped to this `Hand`
 
 #### Implement IWeapon
 
-Have the `Weapon` implement `IWeapon`
+Have the class `Weapon` implement `IWeapon`
+
+##### Power
+
+The `Weapon` class already has a `Power` Property. Nice!
+
+##### EquippedTo
+
 - You need to add the `EquippedTo`-Property with a getter and private setter
+  - The private `set` Accessor will be used to change the `Hand` that the `Weapon` is currently equipped to.
+    - We want it to be `private` so it can only be chanced through the `EquipTo` and `UnEquip` methods.
+  - The public `get` Accessor exists, so other classes can also see, what `Hand` a Weapon is currently equipped to.
 
 ##### UnEquip
 
 Implement the `UnEquip`-Method:
 - First, we remove ourselves from the `Hand` that we are equipped to:
-- On our own `EquippedTo`-Property, set the `Weapon`-Property to `null`
-- Then, we set our own `Hand` to `null`, since we are not equipped anymore:
-- Set our own `EquippedTo`-Property to `null`
+  - On `EquippedTo`-Property, assign `null` to the `Weapon` Property
+- Then, we can stop tracking the `Hand` that we are equipped to:
+  - Assign `null` to the `EquippedTo` Property
+
+Question: What happens, if you try to unequip a weapon that is currently not equipped?
+
+```cs
+IWeapon banana = new Banana();
+banana.UnEquip();
+public class Banana : Weapon{
+   public Banana : base("Banana", 100){
+
+   }
+}
+```
+
+Question: How can you fix above issue?
 
 ##### Equip
 
 Implement to `EquipTo`-Method:
-  - First, if there already is a `Weapon` equipped to the `Hand`, we need to `UnEquip` it:
-  - On the `Hand`-Parameter, we need to see, if `Weapon` is not `null`. And if it is not `null`, we need to call `UnEquip` on that `IWeapon`.
-  - Then, we need to attach ourselves to the `Hand`:
-    - On the `hand`-Argument, set the `Weapon`-Property to `this`
-    - Then, we need to save the value of `hand` in our own Property:
-    - Assign the `hand`-Argument to the `Weapon`'s `EquippedTo`-Property
+- First, we let the `Hand` know, what `Weapon` it is holding:
+  - On the `hand`-Argument, set the `Weapon`-Property to `this`
+- Then, we need to keep track of the `Hand` that we are currently equipped to, so `UnEquip` knows later, what `Hand` to remove the `Weapon` from:
+  - Assign the `hand`-Argument to the `Weapon`'s `EquippedTo`-Property
+
+Question: What happens, if you try to equip the same weapon to two different Hands?
+
+```cs
+IHand left = new Hand();
+IHand right = new Hand();
+IWeapon banana = new Banana();
+
+banana.EquipTo(left);
+banana.EquipTo(right);
+
+Console.WriteLine($"Left Hand carries {left.Weapon}.");
+Console.WriteLine($"Right Hand carries {right.Weapon}.");
+Console.WriteLine($"Banana is equipped to {banana.EquippedTo}.");
+
+public class Hand : IHand{
+  public IWeapon Weapon {get; set;}
+}
+public class Banana : Weapon{
+   public Banana : base("Banana", 100){
+
+   }
+}
+```
+
+Question: How can you fix above issue?
 
 #### Implement IHand
 
+The following approach is a very simple one, where every `Unit` can only hold one `Weapon` at a time:
+
 - Have the `Unit` implement `IHand`
   - Now, let's remove the `Weapon`-Property of type `Weapon` from class `Unit`
-  - Also remove the assignment int the `Unit`-Constructor
+  - Also remove the assignment in the `Unit`-Constructor
   - You just need to add the `Weapon`-Property of type `IWeapon` with getter and setter
+
+You could also extend above example by having two hands:
+
+```cs
+public class Unit{
+  IHand Left {get;}
+  IHand Right {get;}
+
+  public Unit(/*...*/){
+    Left = new Hand();
+    Right = new Hand();
+
+    // ...
+  }
+}
+public class Hand : IHand{
+  // ...
+}
+```
 
 #### Using Weapons
 
+- Change the `Unit`'s Constructor to take a `IWeapon` Argument instead of `Weapon`.
 - In the `Unit`'s Constructor, call `EquipTo` on the `weapon` argument
-  - pass the `Unit` instance itself (`this`) as an argument to the Method.
+  - pass a reference to the `Unit` itself (`this`) as an argument to the Method.
 
 Need Help? [Here's The Slides!](slides/README.md#14-interfaces)
+
+## 14.1 Interfaces Part 2
+
+### Goal
+
+Now you might wonder, why go the extra mile of using interfaces?\
+Well, because they're highly extensible.
+
+But before we can prove that, let's clean up the Logic a bit more.
+
+Right now, the `Unit` has the `Attack` logic in its `Attack`-Method:
+
+```cs
+public void Attack(Unit target){
+  Console.WriteLine($"Unit #{id}: {name} uses {Weapon.GetType().Name} to attack unit #{target.id}: {target.Name} for {Weapon.Power} damage.");
+  target.TakeDamage(Weapon.Power);
+}
+```
+
+But it makes more sense to put that logic in the `IWeapon`-Interface:
+
+```cs
+public interface IWeapon{
+  void Attack(Unit attacker, Unit target);
+  // ...
+}
+```
+
+This will allow us to make way more diverse weapons than we can right now. You'll see!
+
+### Instructions
+
+#### Change IWeapon interface
+
+We will add a new Method to the `IWeapon` `interface` to make sure that every `Weapon` can Attack:
+
+- Add the Method named `Attack` with two arguments to `IWeapon`:
+  - `attacker` of type `Unit`
+    - We use this to keep track of who is attacking.
+  - `target` of type `Unit`
+    - We use this to keep track of who is being attacked.
+
+#### Change Weapon Class
+
+Since the `IWeapon` interface changed and `Weapon` implements `IWeapon`, we need to change the `Weapon` class:
+
+- Add the missing Method to the `Weapon` base class
+- Move the logic from `Unit.Attack` to `Weapon.Attack`
+  - The Method is now part of the `Weapon`, not the attacking `Unit` anymore. So we can't access the Unit's `id` and `name` fields anymore. We need to fix this. We will change the `Unit` class later. For now:
+    - Change `id` to `attacker.Id`. We will add the Property to the `Unit` class.
+    - Change `name` to `attacker.Name`. The Property already exists on `Unit` class.
+  - The Method is now part of the `Weapon`, not the `Unit` holding the `Weapon`, so we need to fix:
+    - Change `Weapon.GetType()` to `this.GetType()`. The Method is part of the Weapon. So it can access itself.
+    - You can remove `this.`, but it might make the change more clear to you.
+    - Change `Weapon.Power` to `this.Power`. Same as above. You can remove `this.`
+  - We don't need to make changes to `target` because the `target` was passed to the `Unit`'s Attack Method and will then be passed on to the `Weapon`'s Attack Method.
+- Invoke `Weapon.Attack` Method from within `Unit.Attack` Method
+  - Pass `this` as `attacker` Argument, since the `Unit` that the `Attack` Method is invoked on is the one attacking.
+  - Pass on the `target` Argument from `Unit.Attack` to `Weapon.Attack`
+
+#### Change Unit Class
+
+In above code, we required the `Unit`'s private field `int id`. But we can't access it. Let's make it accessible through a public Property containing only a `get` Accessor:
+
+- Add a `public` Property of type `int` named `Id`.
+  - In the `get` accessor, return the value of the private field named `id`.
+
+Test your changes! Everything should still be working!
+
+## 14.2 Interfaces Part 3
+
+### Goal
+
+This time, we're gonna do some awesome stuff!\
+Not all equippable Weapons must be physical objects. Let's make a Mind Controller!
+
+### Instructions (Mind Control)
+
+- Add a new class named `MindControl`. It implements the interface `IWeapon`
+  - It has 0 Power
+    - so its `Power` Property should just always return `0`
+  - It needs an `EquippedTo` Property
+    - with a public `get`
+    - and private `set`
+  - `EquipTo` Method
+    - we always assign `this` to `hand.Weapon`
+  - `UnEquip` Method
+    - here, we do nothing. `MindControl` can not be unequipped.
+  - In `Attack` Method
+    - First, we print some info to the console: `Console.WriteLine($"Unit #{attacker.Id}: {attacker.Name} uses {GetType().Name} on unit #{target.Id}");`
+    - Then, we do something really cool: We just invoke the `Attack` Method on the `target`, passing `target` itself as an argument (Stop hitting tourself!)
+
+- Add a new class named `BigBrain`
+  - It inherits from class `Unit`
+  - Add a `health` stat of your liking
+  - Pass `new MindControl()` as a weapon to the base class.
+
+Adjust your `SpawnNewUnit` Method to be able to randomly spawn a `BigBrain` as well as other units.
+- Consider givin `BigBrain` a 100% Spawn Chance for now in order to more easily test, whether it's working.
+
+## 14.3 Interfaces Part 4
+
+### Goal
+
+Another awesome class. We have the `IHand` interface for hands and `IWeapon` for equippable Weapon. But what if our `Weapon` has a `Hand` or even two?
+
+### Instructions
+
+- Add a new class named `RobotArm`
+  - It implements the interface `IHand`
+  - It has a public Property named `Weapon` of type `IWeapon` with `get` and `set` Accessor.
+
+- Add a new class named `RobotArms`
+  - It implements the interface `IWeapon`
+    - We will implement `Power` later, since this Weapon's Power adds up! :)
+    - It needs an `EquippedTo` Property with a public `get` and private `set`
+    - It has a `EquipTo` method, which looks the same as `Weapon`'s `EquipTo` Method. Not great, but let's keep it simple for now.
+    - It has a `UnEquip` method, which also looks the same as `Weapon`'s `UnEquip` Method.
+    - We will implement `Attack` later, since this Weapon  will have multiple Weapon's! :)
+  - It has two Properties of Type `IHand`
+    - Read-Only Property named `Left` of type `IHand`
+    - Read-Only Property named `Right` of type `IHand`
+  - It has a Constructor that takes two `IWeapon` as arguments!
+    - Constructor parameter `left` of Type `IWeapon`
+    - Constructor parameter `right` of Type `IWeapon`
+    - Assign `new RobotArm` to `Left` Property
+    - Assign `new RobotArm` to `Right` Property
+    - Invoke `EquipTo` on `IWeapon left` passing `IHand Left` as an argument
+    - Invoke `EquipTo` on `IWeapon right` passing `IHand Right` as an argument
+  - Now, let's implement the `Power` Property:
+    - Add a `get` Accessor that returns the sum of `Left.Weapon.Power` and `Right.Weapon.Power`
+  - And also the `Attack` Method:
+    - First, we print some info to the console: `Console.WriteLine($"Unit #{attacker.Id}: {attacker.Name} uses {GetType().Name} on unit #{target.Id}");`
+    - Now, we invoke the `Attack` Method on `Left.Weapon` and pass the `attacker` and `target` Arguments through.
+    - And then, we invoke the `Attack` Method on `Right.Weapon` and pass the `attacker` and `target` Arguments through.
+
+- Add a new class named `Tinker`
+  - It inherits from class `Unit`
+  - Add a `health` stat of your liking
+  - Pass `new RobotArms()` as a weapon to the base class.
+    - Pass two Weapons of your liking to the constructor. Play around with this.
+    - Maybe, you can make a method that passes two random weapons to the constructor every time? :)
+
+## 14.4 Interfaces Part 5
+
+### Goal
+
+More ideas:
+
+- A Weapon that does not only deal damage to the `target`, but also heal the `attacker`
+- A Weapon, which is a shield, that can be carried additionally to a `Weapon` (in the same hand)
+  - It implements both `IHand` and `IEquippable`
+  - And the `IWeapon` passed to the constructor gets attached to itself
 
 ## Done?
 Return to the [Overview](../../../#5-game-on)
