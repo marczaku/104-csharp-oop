@@ -220,7 +220,7 @@ Question: What happens, if you try to unequip a weapon that is currently not equ
 IWeapon banana = new Banana();
 banana.UnEquip();
 public class Banana : Weapon{
-   public Banana : base("Banana", 100){
+   public Banana() : base("Banana", 100){
 
    }
 }
@@ -254,7 +254,7 @@ public class Hand : IHand{
   public IWeapon Weapon {get; set;}
 }
 public class Banana : Weapon{
-   public Banana : base("Banana", 100){
+   public Banana() : base("Banana", 100){
 
    }
 }
@@ -311,7 +311,7 @@ Right now, the `Unit` has the `Attack` logic in its `Attack`-Method:
 
 ```cs
 public void Attack(Unit target){
-  Console.WriteLine($"Unit #{id}: {name} uses {Weapon.GetType().Name} to attack unit #{target.id}: {target.Name} for {Weapon.Power} damage.");
+  Console.WriteLine($"Unit #{id}: {name} uses {Weapon.Name} to attack unit #{target.id}: {target.Name} for {Weapon.Power} damage.");
   target.TakeDamage(Weapon.Power);
 }
 ```
@@ -349,7 +349,7 @@ Since the `IWeapon` interface changed and `Weapon` implements `IWeapon`, we need
     - Change `id` to `attacker.Id`. We will add the Property to the `Unit` class.
     - Change `name` to `attacker.Name`. The Property already exists on `Unit` class.
   - The Method is now part of the `Weapon`, not the `Unit` holding the `Weapon`, so we need to fix:
-    - Change `Weapon.GetType()` to `this.GetType()`. The Method is part of the Weapon. So it can access itself.
+    - Change `Weapon.Name` to `Name`. The Method is part of the Weapon. So it can access itself.
     - You can remove `this.`, but it might make the change more clear to you.
     - Change `Weapon.Power` to `this.Power`. Same as above. You can remove `this.`
   - We don't need to make changes to `target` because the `target` was passed to the `Unit`'s Attack Method and will then be passed on to the `Weapon`'s Attack Method.
@@ -386,7 +386,7 @@ Not all equippable Weapons must be physical objects. Let's make a Mind Controlle
   - `UnEquip` Method
     - here, we do nothing. `MindControl` can not be unequipped.
   - In `Attack` Method
-    - First, we print some info to the console: `Console.WriteLine($"Unit #{attacker.Id}: {attacker.Name} uses {GetType().Name} on unit #{target.Id}");`
+    - First, we print some info to the console: `Console.WriteLine($"Unit #{attacker.Id}: {attacker.Name} uses {Name} on unit #{target.Id}");`
     - Then, we do something really cool: We just invoke the `Attack` Method on the `target`, passing `target` itself as an argument (Stop hitting tourself!)
 
 - Add a new class named `BigBrain`
@@ -429,7 +429,7 @@ Another awesome class. We have the `IHand` interface for hands and `IWeapon` for
   - Now, let's implement the `Power` Property:
     - Add a `get` Accessor that returns the sum of `Left.Weapon.Power` and `Right.Weapon.Power`
   - And also the `Attack` Method:
-    - First, we print some info to the console: `Console.WriteLine($"Unit #{attacker.Id}: {attacker.Name} uses {GetType().Name} on unit #{target.Id}");`
+    - First, we print some info to the console: `Console.WriteLine($"Unit #{attacker.Id}: {attacker.Name} uses {Name} on unit #{target.Id}");`
     - Now, we invoke the `Attack` Method on `Left.Weapon` and pass the `attacker` and `target` Arguments through.
     - And then, we invoke the `Attack` Method on `Right.Weapon` and pass the `attacker` and `target` Arguments through.
 
@@ -447,9 +447,15 @@ Another awesome class. We have the `IHand` interface for hands and `IWeapon` for
 More ideas:
 
 - A Weapon that does not only deal damage to the `target`, but also heal the `attacker`
+  - Its `Attack` Method is slightly different to a regular Weapon's `Attack` Method
 - A Weapon, which is a shield, that can be carried additionally to a `Weapon` (in the same hand)
   - It implements both `IHand` and `IEquippable`
   - And the `IWeapon` passed to the constructor gets attached to itself
+- A Weapon, which is really strong, but always needs one turn to charge
+- A Weapon, which is really strong, but breaks after 3 usages
+- A Weapon, whose damage doubles every time it attacks
+- A Weapon, which deals random damage 
+- A Weapon, which has a 50% chance of hitting the attacker instead of the target
 
 ## Done?
 Return to the [Overview](../../../#5-game-on)
