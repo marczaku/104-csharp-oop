@@ -123,8 +123,8 @@ Need Help? [Here's The Slides!](slides/README.md#12-composition)
 ### Instructions
 - Continue working on the Project `RPG`
 - Make the `Attack`-Method on the `Unit`-class `virtual`, if you haven't done so already.
-  - This allows us to `overload` this method for some Units, giving them special `Attack` abilities.
-- `overload` the `Attack`-Method on the `Hero`-class.
+  - This allows us to `override` this method for some Units, giving them special `Attack` abilities.
+- `override` the `Attack`-Method on the `Hero`-class.
   - First, call the `base`-`Attack`-Method.
   - Then, check, if the `target`-`Unit` `is` a `Skeleton`
     - If it is, then Deal 10 Damage extra.
