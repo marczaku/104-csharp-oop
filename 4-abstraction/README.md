@@ -154,7 +154,7 @@ Need Help? [Here's The Slides!](slides/README.md#13-class-casting)
 - We will refactor our `TakeDamage`-Method to allow our `Hedgehog`'s `Spikes` to deal damage while he's in defense Mode.
 ### Instructions
 - Change the `Unit`'s Method `TakeDamage` to take a second parameter named `attacker` of type `Unit`.
-- Now, change the Code all over the place, where the `TageDamage`-Method is invoked and pass `this` as a second argument.
+- Now, change the Code all over the place, where the `TakeDamage`-Method is invoked and pass `this` as a second argument.
   - Like this: `unit.TakeDamage(30, this);`
 - Now, in the `Hedgehog`'s `TakeDamage` Method, if he is in Defense-Mode, let the Hedgehog deal 5 Damage through its Spikes.
   - Print: `"The Hedgehog's Spikes are up and they hurt!"`
@@ -178,6 +178,8 @@ Need Help? [Here's The Slides!](slides/README.md#13-class-casting)
 - Create an `interface` named `IWeapon`.
   - it has a `Property` named `Power` of type `int` with only a `get`-Accessor.
     - We will use it to keep track of a `Weapon`'s damage in the `Attack` method.
+  - it has a `Property` named `Name` of type `string` with only a `get`-Accessor.
+    - We will need it later, to print the Weapon's Name in dialogues.
   - it has a `Property` named `EquippedTo` of type `IHand` with only a `get`-Accessor
     - We will use it to keep track of what `Hand` the `Weapon` is currently equipped to
   - it has a `Method` named `EquipTo` with one parameter of type `IHand` named `hand`
@@ -198,6 +200,10 @@ Have the class `Weapon` implement `IWeapon`
 ##### Power
 
 The `Weapon` class already has a `Power` Property. Nice!
+
+##### Power
+
+The `Weapon` class already has a `Name` Property. Nice!
 
 ##### EquippedTo
 
